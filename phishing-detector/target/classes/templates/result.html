@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Analysis Result</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/dark.css">
+    <style>
+        .result-box { padding: 20px; border-radius: 8px; margin-top: 20px; }
+        .safe { border: 2px solid #2a5a2a; }
+        .phishing { border: 2px solid #7f1d1d; }
+        .url-checked { word-wrap: break-word; background-color: #333; padding: 10px; border-radius: 5px; }
+        ul { list-style-type: none; padding-left: 0; }
+        li.phishing-item::before { content: '❌ '; color: #ff8a8a; }
+        li.safe-item::before { content: '✅ '; color: #8aff8a; }
+    </style>
+</head>
+<body>
+    <h1>Analysis Result</h1>
+    <p>The following URL was checked:</p>
+    <p class="url-checked" th:text="${checkedUrl}"></p>
+
+    <div th:if="${isPhishing}" class="result-box phishing">
+        <h2>Verdict: Phishing Detected</h2>
+        <p>The following red flags were found:</p>
+        <ul>
+            <li th:each="reason : ${reasons}" th:text="${reason}" class="phishing-item"></li>
+        </ul>
+    </div>
+
+    <div th:if="${!isPhishing}" class="result-box safe">
+        <h2>Verdict: Appears Safe</h2>
+        <p>The URL passed the following security checks:</p>
+        <ul>
+            <li th:each="reason : ${reasons}" th:text="${reason}" class="safe-item"></li>
+        </ul>
+    </div>
+
+    <a href="/">Check another URL</a>
+</body>
+</html>
