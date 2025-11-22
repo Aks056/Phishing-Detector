@@ -19,6 +19,11 @@
     <p>The following URL was checked:</p>
     <p class="url-checked" th:text="${checkedUrl}"></p>
 
+    <div th:if="${riskScore != null}">
+        <p><strong>Risk score:</strong> <span th:text="${riskScore}"></span></p>
+        <p><strong>Risk level:</strong> <span th:text="${riskLevel}"></span></p>
+    </div>
+
     <div th:if="${isPhishing}" class="result-box phishing">
         <h2>Verdict: Phishing Detected</h2>
         <p>The following red flags were found:</p>

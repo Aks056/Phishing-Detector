@@ -59,7 +59,7 @@ You can download Java from [here](https://adoptopenjdk.net/) and Maven from [her
 Follow these steps to set up Phishing-Detector on your local machine:
 
 1. **Clone the Repository**  
-git clone https://github.com/Maks06/Phishing-Detector.git
+git clone https://github.com/Aks056/Phishing-Detector.git
 
 
 2. **Navigate to the Project Directory**
@@ -74,11 +74,26 @@ This command will download all the required libraries and set up the project.
 
 ### Usage
 
-To run the Phishing-Detector, use the following command to start the project:
-mvn exec:java
+To run the Phishing-Detector locally, use the included Maven wrapper.
 
+- On Windows (PowerShell/CMD):
 
-This command will execute the main class of the project and start the phishing detection process.
+```
+.\mvnw.cmd spring-boot:run
+```
+
+- On Linux/macOS:
+
+```
+./mvnw spring-boot:run
+```
+
+Or build a jar and run it:
+
+```
+./mvnw package
+java -jar target/phishing-detector-0.0.1-SNAPSHOT.jar
+```
 
 ### Testing
 
