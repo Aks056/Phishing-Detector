@@ -1,24 +1,48 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Phishing Detector</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/dark.css">
-    <style>
-        
-    </style>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>Phishing Detector</title>
+        <link rel="stylesheet" href="/css/style.css">
+    </head>
+    <body>
+        <main class="container">
+            <header class="header">
+                <h1>Phishing Detector</h1>
+                <p class="lead">Quickly analyze URLs for common phishing indicators.</p>
+            </header>
 
-</head>
-<body>
+            <section class="card form-card">
+                <form id="checkForm" class="check-form" autocomplete="off">
+                    <label for="url_input">Enter URL to analyze</label>
+                    <input id="url_input" name="url" type="url" placeholder="https://example.com/login" required>
+                    <div class="actions">
+                        <button id="checkBtn" type="submit" class="btn primary">Analyze</button>
+                        <button id="clearBtn" type="button" class="btn">Clear</button>
+                    </div>
+                </form>
+            </section>
 
-    <h1>Phishing Detector</h1>
-    <p>Enter a URL to check if it's safe.</p>
+            <section id="result" class="card result-card hidden">
+                <div class="result-header">
+                    <h2 id="verdict">—</h2>
+                    <div id="scoreBadge" class="badge">Score: —</div>
+                </div>
+                <p class="checked-url"><strong>URL:</strong> <span id="checkedUrl"></span></p>
+                <p><strong>Risk Level:</strong> <span id="riskLevel">—</span></p>
+                <div id="reasonsBlock">
+                    <h3>Findings</h3>
+                    <ul id="reasonsList" class="findings"></ul>
+                </div>
+                <pre id="rawResponse" class="raw hidden"></pre>
+            </section>
 
-    <form action="/check-url" method="post">
-        <label for="url_input">URL:</label>
-        <input type="text" id="url_input" name="url_to_check" placeholder="e.g., https://google.com" required>
-        <button type="submit">Check URL</button>
-    </form>
+            <footer class="footer">
+                <small>Built with modular detection engine · <a href="#" id="aboutLink">About</a></small>
+            </footer>
+        </main>
 
-</body>
-</html>
+        <script src="/js/app.js"></script>
+    </body>
+    </html>
