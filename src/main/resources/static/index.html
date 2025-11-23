@@ -4,45 +4,104 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <title>Phishing Detector</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="/css/style.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     </head>
     <body>
-        <main class="container">
-            <header class="header">
-                <h1>Phishing Detector</h1>
-                <p class="lead">Quickly analyze URLs for common phishing indicators.</p>
+        <section class="bg-black relative overflow-hidden min-h-screen">
+            <!-- grain overlay -->
+            <div class="pointer-events-none absolute inset-0 bg-[url('/assets/noise.png')] opacity-5"></div>
+
+            <header class="max-w-7xl mx-auto px-6 py-6 flex justify-between items-center">
+                <div class="text-yellow-400 font-mono tracking-widest">PHISHING DETECTOR</div>
+                <nav class="text-gray-300 uppercase text-sm space-x-6 hidden md:flex">
+                    <a href="#services">Services</a><a href="/developer.html">Developer</a><a href="#about">About</a>
+                </nav>
             </header>
 
-            <section class="card form-card">
-                <form id="checkForm" class="check-form" autocomplete="off">
-                    <label for="url_input">Enter URL to analyze</label>
-                    <input id="url_input" name="url" type="url" placeholder="https://example.com/login" required>
-                    <div class="actions">
-                        <button id="checkBtn" type="submit" class="btn primary">Analyze</button>
-                        <button id="clearBtn" type="button" class="btn">Clear</button>
+            <div class="max-w-7xl mx-auto px-6 py-20 md:py-28">
+                <h1 class="font-mono uppercase text-yellow-400 leading-none tracking-wider hero-headline"
+                    style="font-size:clamp(48px,9vw,140px);">
+                    <span class="inline-block will-change-transform">SECURE</span>
+                    <span class="inline-block ml-6">YOUR</span>
+                    <span class="inline-block ml-6">DIGITAL</span>
+                    <span class="block">WORLD</span>
+                </h1>
+
+                <p class="mt-6 max-w-xl text-gray-400 uppercase tracking-wider">Advanced phishing detection powered by modular AI-driven analysis</p>
+
+                <div class="mt-8 flex gap-4">
+                    <button class="bg-yellow-400 text-black px-6 py-3 font-semibold uppercase rounded-sm shadow-sm" onclick="document.getElementById('url_input').focus()">Analyze</button>
+                    <button class="border border-yellow-400 text-yellow-400 px-6 py-3 uppercase rounded-sm" onclick="document.getElementById('about').scrollIntoView()">About</button>
+                </div>
+            </div>
+
+            <section id="services" class="max-w-7xl mx-auto px-6 py-16">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="service-card bg-gray-900 border border-yellow-400 p-6 hover:transform hover:-translate-y-2 transition-transform">
+                        <h3 class="text-yellow-400 font-mono uppercase text-lg mb-4">URL Analysis</h3>
+                        <p class="text-gray-400 mb-4">Instantly scan URLs for phishing indicators using our comprehensive detection engine.</p>
+                        <button class="bg-yellow-400 text-black px-4 py-2 font-semibold uppercase rounded-sm" onclick="document.getElementById('url_input').focus()">Analyze Now</button>
                     </div>
+                    <div class="service-card bg-gray-900 border border-yellow-400 p-6 hover:transform hover:-translate-y-2 transition-transform">
+                        <h3 class="text-yellow-400 font-mono uppercase text-lg mb-4">Risk Scoring</h3>
+                        <p class="text-gray-400 mb-4">Get detailed risk scores and threat levels with actionable recommendations.</p>
+                        <button class="bg-yellow-400 text-black px-4 py-2 font-semibold uppercase rounded-sm" onclick="document.getElementById('url_input').focus()">Check Risk</button>
+                    </div>
+                    <div class="service-card bg-gray-900 border border-yellow-400 p-6 hover:transform hover:-translate-y-2 transition-transform">
+                        <h3 class="text-yellow-400 font-mono uppercase text-lg mb-4">Detection History</h3>
+                        <p class="text-gray-400 mb-4">Review your recent analyses and track patterns in suspicious URLs.</p>
+                        <button class="bg-yellow-400 text-black px-4 py-2 font-semibold uppercase rounded-sm" onclick="document.getElementById('history').classList.remove('hidden')">View History</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="max-w-7xl mx-auto px-6 py-16">
+                <h2 class="text-yellow-400 font-mono uppercase text-2xl mb-8">Quick URL Check</h2>
+                <form id="checkForm" class="check-form flex gap-4 max-w-md" autocomplete="off">
+                    <input id="url_input" name="url" type="url" placeholder="Enter URL to analyze..." required class="flex-1 bg-gray-900 border border-yellow-400 text-white px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                    <button id="checkBtn" type="submit" class="bg-yellow-400 text-black px-6 py-2 font-semibold uppercase rounded-sm hover:bg-yellow-500 transition">ANALYZE</button>
+                    <button id="clearBtn" type="button" class="border border-yellow-400 text-yellow-400 px-6 py-2 uppercase rounded-sm hover:bg-yellow-400 hover:text-black transition">CLEAR</button>
                 </form>
             </section>
 
-            <section id="result" class="card result-card hidden">
-                <div class="result-header">
-                    <h2 id="verdict">—</h2>
-                    <div id="scoreBadge" class="badge">Score: —</div>
+            <section id="result" class="result hidden max-w-7xl mx-auto px-6 py-16">
+                <div class="result-container bg-gray-900 border border-yellow-400 p-6">
+                    <div class="result-header flex justify-between items-center mb-4">
+                        <h2 id="verdict" class="text-yellow-400 font-mono uppercase text-xl">—</h2>
+                        <div id="scoreBadge" class="badge bg-yellow-400 text-black px-3 py-1 font-semibold uppercase">Score: —</div>
+                    </div>
+                    <p class="checked-url text-gray-400 mb-2"><strong class="text-white">URL:</strong> <span id="checkedUrl"></span></p>
+                    <p class="text-gray-400 mb-4"><strong class="text-white">Risk Level:</strong> <span id="riskLevel">—</span></p>
+                    <div id="reasonsBlock">
+                        <h3 class="text-yellow-400 font-mono uppercase mb-2">Findings</h3>
+                        <ul id="reasonsList" class="findings text-gray-400"></ul>
+                    </div>
+                    <pre id="rawResponse" class="raw hidden bg-black p-4 mt-4 text-green-400"></pre>
                 </div>
-                <p class="checked-url"><strong>URL:</strong> <span id="checkedUrl"></span></p>
-                <p><strong>Risk Level:</strong> <span id="riskLevel">—</span></p>
-                <div id="reasonsBlock">
-                    <h3>Findings</h3>
-                    <ul id="reasonsList" class="findings"></ul>
-                </div>
-                <pre id="rawResponse" class="raw hidden"></pre>
             </section>
 
-            <footer class="footer">
-                <small>Built with modular detection engine · <a href="#" id="aboutLink">About</a></small>
+            <section id="history" class="history hidden max-w-7xl mx-auto px-6 py-16">
+                <div class="history-container bg-gray-900 border border-yellow-400 p-6">
+                    <h3 class="text-yellow-400 font-mono uppercase mb-4">Recent Checks</h3>
+                    <ul id="historyList" class="findings text-gray-400 mb-4"></ul>
+                    <button id="clearHistory" class="border border-yellow-400 text-yellow-400 px-4 py-2 uppercase rounded-sm hover:bg-yellow-400 hover:text-black transition">Clear History</button>
+                </div>
+            </section>
+
+            <footer id="about" class="footer max-w-7xl mx-auto px-6 py-16">
+                <div class="footer-container text-center">
+                    <p class="text-gray-400">Built with modular detection engine · <a href="/developer.html" class="text-yellow-400 hover:underline">API Docs</a></p>
+                </div>
             </footer>
-        </main>
+
+            <!-- placeholder for threejs globe -->
+            <div id="globe" class="pointer-events-none absolute -right-40 bottom-0 w-[720px] h-[720px] opacity-80"></div>
+        </section>
 
         <script src="/js/app.js"></script>
     </body>
-    </html>
+</html>

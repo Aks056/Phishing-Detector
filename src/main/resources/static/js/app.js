@@ -16,6 +16,48 @@ document.addEventListener('DOMContentLoaded', () => {
     resultSection.classList.add('hidden');
   });
 
+  const historyListEl = document.getElementById('historyList');
+  const historySection = document.getElementById('history');
+  const clearHistoryBtn = document.getElementById('clearHistory');
+
+  // Helper: read/write history (max 10 entries)
+  function loadHistory() {
+    try {
+      const raw = localStorage.getItem('phishing_history');
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) { return []; }
+  }
+  function saveHistory(arr) {
+    localStorage.setItem('phishing_history', JSON.stringify(arr.slice(0,10)));
+  }
+  function renderHistory() {
+    const items = loadHistory();
+    historyListEl.innerHTML = '';
+    if (!items.length) {
+      historySection.classList.add('hidden');
+      return;
+    }
+    historySection.classList.remove('hidden');
+    items.forEach(it => {
+      const li = document.createElement('li');
+      li.className = it.isPhishing ? 'danger' : 'safe';
+      li.textContent = `${new Date(it.ts).toLocaleString()} — ${it.url} — ${it.riskLevel} (${it.riskScore})`;
+      li.addEventListener('click', () => {
+        urlInput.value = it.url;
+        // re-run analysis quickly
+        form.dispatchEvent(new Event('submit', { cancelable: true }));
+      });
+      historyListEl.appendChild(li);
+    });
+  }
+
+  clearHistoryBtn.addEventListener('click', () => {
+    localStorage.removeItem('phishing_history');
+    renderHistory();
+  });
+
+  renderHistory();
+
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const url = urlInput.value.trim();
@@ -37,11 +79,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const data = await resp.json();
 
-      // Response mapping: adapt to UrlCheckResponse structure
-      const isPhishing = data.phishing || data.isPhishing || data.is_phishing || false;
-      const score = data.riskScore ?? data.risk_score ?? data.score ?? 0;
-      const level = data.riskLevel ?? data.risk_level ?? (score > 50 ? 'HIGH' : (score > 20 ? 'MEDIUM' : 'LOW'));
-      const reasons = data.detectedThreats ?? data.threats ?? data.reasons ?? [];
+      // Response mapping: match UrlCheckResponse DTO fields
+      const isPhishing = data.isPhishing === true;
+      const score = typeof data.riskScore === 'number' ? data.riskScore : 0;
+      const level = data.riskLevel || (score > 50 ? 'HIGH' : (score > 20 ? 'MEDIUM' : 'LOW'));
+      const reasons = Array.isArray(data.detectedThreats) ? data.detectedThreats : [];
+      const recommendation = data.recommendation || '';
 
       // Populate UI
       verdictEl.textContent = isPhishing ? 'Phishing Detected' : 'Appears Safe';
@@ -71,6 +114,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
       resultSection.classList.remove('hidden');
 
+      // add to history
+      try {
+        const hist = loadHistory();
+        hist.unshift({ ts: Date.now(), url, isPhishing, riskScore: score, riskLevel: level });
+        saveHistory(hist);
+        renderHistory();
+      } catch(e) { /* ignore */ }
+
     } catch (err) {
       alert('Error analyzing URL: ' + err.message);
     } finally {
@@ -78,4 +129,65 @@ document.addEventListener('DOMContentLoaded', () => {
       checkBtn.textContent = 'Analyze';
     }
   });
+});
+
+// Globe initialization
+function initGlobe(container) {
+  const scene = new THREE.Scene();
+  const w = container.clientWidth, h = container.clientHeight;
+  const camera = new THREE.PerspectiveCamera(45, w/h, 0.1, 1000);
+  camera.position.z = 3.5;
+
+  const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+  renderer.setSize(w, h); container.appendChild(renderer.domElement);
+
+  // dotted sphere geometry
+  const pointsGeo = new THREE.BufferGeometry();
+  const positions = [];
+  const color = new THREE.Color(0xFFD400);
+
+  // sample random points on sphere surface
+  for (let i=0;i<1200;i++){
+    const u = Math.random()*2-1, theta = Math.random()*Math.PI*2;
+    const r = Math.sqrt(1 - u*u);
+    positions.push(r * Math.cos(theta), r * Math.sin(theta), u);
+  }
+  pointsGeo.setAttribute('position', new THREE.Float32BufferArray(positions, 3));
+
+  const mat = new THREE.PointsMaterial({ size: 0.02, color: color, transparent: true, opacity: 0.95 });
+  const points = new THREE.Points(pointsGeo, mat);
+  scene.add(points);
+
+  // soft glow
+  const light = new THREE.AmbientLight(0xffffff, 0.6);
+  scene.add(light);
+
+  // rotation + pointer parallax
+  let rotY = 0;
+  const onMove = (e) => {
+    const mx = (e.clientX / window.innerWidth) * 2 - 1;
+    rotY = mx * 0.3;
+  };
+  window.addEventListener('mousemove', onMove);
+
+  function animate(){
+    requestAnimationFrame(animate);
+    points.rotation.y += 0.002 + (rotY - points.rotation.y) * 0.05;
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  // handle resize
+  window.addEventListener('resize', ()=> {
+    const w2 = container.clientWidth, h2 = container.clientHeight;
+    renderer.setSize(w2,h2); camera.aspect = w2/h2; camera.updateProjectionMatrix();
+  });
+}
+
+// Initialize globe on load
+document.addEventListener('DOMContentLoaded', () => {
+  const globeContainer = document.getElementById('globe');
+  if (globeContainer) {
+    initGlobe(globeContainer);
+  }
 });
