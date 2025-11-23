@@ -2,20 +2,27 @@ package com.security.phishing_detector;
 
 import java.util.List;
 
+/**
+ * @deprecated Replaced by `com.security.phishing_detector.domain.ThreatAnalysis`.
+ * This class remains for backward compatibility and should not be used in new code.
+ */
+@Deprecated
 public class AnalysisResult {
     private final boolean isPhishing;
-    private final List<String> reasons; // Changed from String to List<String>
+    private final List<String> reasons;
 
     public AnalysisResult(boolean isPhishing, List<String> reasons) {
         this.isPhishing = isPhishing;
         this.reasons = reasons;
     }
 
+    @Deprecated
     public boolean isPhishing() {
         return isPhishing;
     }
 
-    public List<String> getReasons() { // Changed getter name
+    @Deprecated
+    public List<String> getReasons() {
         return reasons;
     }
 }

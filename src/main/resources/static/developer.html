@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Developer Docs - Phishing Detector</title>
+    <link rel="stylesheet" href="/css/style.css">
+  </head>
+  <body>
+    <main class="container">
+      <h1>Developer Docs</h1>
+      <p class="muted-small">This page links to the auto-generated OpenAPI UI and documents how to use the detection API.</p>
+
+      <section class="card">
+        <h2>API</h2>
+        <p>Use the REST endpoint to analyze URLs:</p>
+        <pre>{ "url": "https://example.com" }</pre>
+        <p>Response schema <em>UrlCheckResponse</em>:</p>
+        <ul>
+          <li><strong>url</strong>: string</li>
+          <li><strong>isPhishing</strong>: boolean</li>
+          <li><strong>riskScore</strong>: number</li>
+          <li><strong>riskLevel</strong>: string</li>
+          <li><strong>detectedThreats</strong>: array[string]</li>
+          <li><strong>recommendation</strong>: string</li>
+        </ul>
+
+        <p>OpenAPI / Swagger UI is available at <a href="/swagger-ui/index.html">/swagger-ui/index.html</a> once the app is running.</p>
+      </section>
+    </main>
+  </body>
+  </html>

@@ -2,9 +2,11 @@ package com.security.phishing_detector.service;
 
 import com.security.phishing_detector.detection.DetectionResult;
 import com.security.phishing_detector.detection.PhishingDetectionEngine;
+import com.security.phishing_detector.domain.AnalysisHistory;
 import com.security.phishing_detector.domain.RiskLevel;
 import com.security.phishing_detector.domain.ThreatAnalysis;
 import com.security.phishing_detector.domain.UrlInfo;
+import com.security.phishing_detector.repository.AnalysisHistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -13,10 +15,12 @@ import java.util.stream.Collectors;
 @Service
 public class PhishingAnalysisService {
     private final PhishingDetectionEngine detectionEngine;
+    private final AnalysisHistoryRepository historyRepository;
 
     @Autowired
-    public PhishingAnalysisService(PhishingDetectionEngine detectionEngine) {
+    public PhishingAnalysisService(PhishingDetectionEngine detectionEngine, AnalysisHistoryRepository historyRepository) {
         this.detectionEngine = detectionEngine;
+        this.historyRepository = historyRepository;
     }
 
     public ThreatAnalysis analyzeUrl(String url) {
@@ -24,7 +28,9 @@ public class PhishingAnalysisService {
             UrlInfo urlInfo = new UrlInfo(url);
 
             if (!urlInfo.isValid()) {
-                return createErrorAnalysis(url, "Invalid or malformed URL");
+                ThreatAnalysis errorAnalysis = createErrorAnalysis(url, "Invalid or malformed URL");
+                saveHistory(url, errorAnalysis.isPhishing(), errorAnalysis.getRiskScore(), List.of());
+                return errorAnalysis;
             }
 
             List<DetectionResult> results = detectionEngine.runAllRules(urlInfo);
@@ -41,11 +47,21 @@ public class PhishingAnalysisService {
             boolean isPhishing = totalRiskScore > 50;
             RiskLevel riskLevel = RiskLevel.fromScore(totalRiskScore);
 
-            return new ThreatAnalysis(url, isPhishing, totalRiskScore, threats, riskLevel);
+            ThreatAnalysis analysis = new ThreatAnalysis(url, isPhishing, totalRiskScore, threats, riskLevel);
+            saveHistory(url, isPhishing, totalRiskScore, results);
+
+            return analysis;
 
         } catch (Exception e) {
-            return createErrorAnalysis(url, "Error analyzing URL: " + e.getMessage());
+            ThreatAnalysis errorAnalysis = createErrorAnalysis(url, "Error analyzing URL: " + e.getMessage());
+            saveHistory(url, errorAnalysis.isPhishing(), errorAnalysis.getRiskScore(), List.of());
+            return errorAnalysis;
         }
+    }
+
+    private void saveHistory(String url, boolean isThreatDetected, double totalRiskScore, List<DetectionResult> results) {
+        AnalysisHistory history = new AnalysisHistory(url, isThreatDetected, totalRiskScore, results);
+        historyRepository.save(history);
     }
 
     private ThreatAnalysis createErrorAnalysis(String url, String error) {
