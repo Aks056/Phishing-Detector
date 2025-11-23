@@ -8,7 +8,7 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="/css/style.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r150/three.min.js"></script>
     </head>
     <body>
         <section class="bg-black relative overflow-hidden min-h-screen">
@@ -18,17 +18,16 @@
             <header class="max-w-7xl mx-auto px-6 py-6 flex justify-between items-center">
                 <div class="text-yellow-400 font-mono tracking-widest">PHISHING DETECTOR</div>
                 <nav class="text-gray-300 uppercase text-sm space-x-6 hidden md:flex">
-                    <a href="#services">Services</a><a href="/developer.html">Developer</a><a href="#about">About</a>
+                    <a href="#services">Services</a><a href="/dashboard.html">Dashboard</a><a href="/developer.html">Developer</a><a href="#about">About</a>
                 </nav>
             </header>
 
             <div class="max-w-7xl mx-auto px-6 py-10 md:py-16">
-                <h1 class="font-mono uppercase text-yellow-400 leading-none tracking-wider hero-headline"
-                    style="font-size:clamp(32px,6vw,80px);">
+                <h1 class="hero-headline font-mono uppercase text-yellow-400 leading-none tracking-wider">
                     <span class="inline-block will-change-transform">SECURE</span>
-                    <span class="inline-block ml-6">YOUR</span>
-                    <span class="inline-block ml-6">DIGITAL</span>
-                    <span class="block">WORLD</span>
+                    <span class="inline-block ml-6 will-change-transform">YOUR</span>
+                    <span class="inline-block ml-6 will-change-transform">DIGITAL</span>
+                    <span class="block will-change-transform">WORLD</span>
                 </h1>
 
                 <p class="mt-4 max-w-xl text-gray-400 uppercase tracking-wider">Advanced phishing detection powered by modular AI-driven analysis</p>
@@ -68,7 +67,7 @@
                 </form>
             </section>
 
-            <section id="result" class="result show">
+            <section id="result" class="result">
                 <div class="result-container bg-gray-900 border border-yellow-400 p-6 relative">
                     <button class="absolute top-2 right-2 text-yellow-400 hover:text-white" onclick="document.getElementById('result').classList.remove('show')">×</button>
                     <div class="result-header flex justify-between items-center mb-4">
@@ -82,6 +81,16 @@
                         <ul id="reasonsList" class="findings text-gray-400"></ul>
                     </div>
                     <pre id="rawResponse" class="raw hidden bg-black p-4 mt-4 text-green-400"></pre>
+                </div>
+            </section>
+
+            <section id="loader" class="loader show">
+                <div class="loader-container bg-gray-900 border border-yellow-400 p-8 relative text-center">
+                    <div class="loader-spinner mb-4">
+                        <div class="animate-spin rounded-full h-12 w-12 border-4 border-yellow-400 border-t-transparent mx-auto"></div>
+                    </div>
+                    <h3 class="text-yellow-400 font-mono uppercase text-xl mb-2">Initializing Detection Engine</h3>
+                    <p class="text-gray-400">Loading AI-powered phishing analysis...</p>
                 </div>
             </section>
 

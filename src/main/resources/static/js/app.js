@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const checkBtn = document.getElementById('checkBtn');
   const clearBtn = document.getElementById('clearBtn');
   const resultSection = document.getElementById('result');
+  const loaderSection = document.getElementById('loader');
   const verdictEl = document.getElementById('verdict');
   const reasonsList = document.getElementById('reasonsList');
   const checkedUrl = document.getElementById('checkedUrl');
@@ -11,9 +12,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const riskLevelEl = document.getElementById('riskLevel');
   const rawResponse = document.getElementById('rawResponse');
 
+  // Hide loader after initialization
+  setTimeout(() => {
+    loaderSection.classList.remove('show');
+  }, 2000);
+
   clearBtn.addEventListener('click', () => {
     urlInput.value = '';
     resultSection.classList.remove('show');
+    loaderSection.classList.remove('show');
   });
 
   const historyListEl = document.getElementById('historyList');
@@ -66,6 +73,10 @@ document.addEventListener('DOMContentLoaded', () => {
     checkBtn.disabled = true;
     checkBtn.textContent = 'Analyzing...';
 
+    // Show loader during analysis
+    loaderSection.classList.add('show');
+    resultSection.classList.remove('show');
+
     try {
       const resp = await fetch('/api/v1/phishing/analyze', {
         method: 'POST',
@@ -113,6 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
       rawResponse.classList.remove('hidden');
 
       resultSection.classList.add('show');
+      loaderSection.classList.remove('show');
 
       // add to history
       try {
@@ -124,6 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     } catch (err) {
       alert('Error analyzing URL: ' + err.message);
+      loaderSection.classList.remove('show');
     } finally {
       checkBtn.disabled = false;
       checkBtn.textContent = 'Analyze';
@@ -152,7 +165,7 @@ function initGlobe(container) {
     const r = Math.sqrt(1 - u*u);
     positions.push(r * Math.cos(theta), r * Math.sin(theta), u);
   }
-  pointsGeo.setAttribute('position', new THREE.Float32BufferArray(positions, 3));
+  pointsGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(positions), 3));
 
   const mat = new THREE.PointsMaterial({ size: 0.02, color: color, transparent: true, opacity: 0.95 });
   const points = new THREE.Points(pointsGeo, mat);

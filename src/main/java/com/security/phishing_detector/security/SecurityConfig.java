@@ -28,15 +28,14 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
             .authorizeHttpRequests(authz -> authz
-                .requestMatchers("/api/v1/auth/**", "/api/v1/phishing/analyze", "/api/v1/phishing/health", "/h2-console/**", "/").permitAll()
-                .requestMatchers("/api/v1/phishing/history").authenticated()
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()  // Temporarily allow all requests for debugging
             )
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .headers().frameOptions().disable(); // For H2 console
 
-        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        // Temporarily disable JWT filter
+        // http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

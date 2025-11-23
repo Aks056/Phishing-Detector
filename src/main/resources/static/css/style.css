@@ -7,10 +7,24 @@
   --gray-400: rgba(255, 255, 255, 0.7);
   --gray-300: rgba(255, 255, 255, 0.5);
   --white: #ffffff;
+  --danger: #ff6b6b;
+  --safe: #51cf66;
 }
 
-/* Utility classes */
-.bg-black { background-color: var(--black); }
+/* Hero section */
+.bg-black {
+  background-color: #000000;
+  background-image:
+    radial-gradient(circle at 25% 25%, rgba(255, 212, 0, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(255, 212, 0, 0.05) 0%, transparent 50%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
 .text-yellow-400 { color: var(--yellow); }
 .text-gray-400 { color: var(--gray-400); }
 .text-gray-300 { color: var(--gray-300); }
@@ -99,15 +113,33 @@
 /* Hero headline animation */
 .hero-headline span {
   opacity: 0;
-  transform: translateY(20px);
-  animation: reveal 1s ease-out forwards;
+  transform: translateY(30px);
+  animation: reveal 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  display: inline-block;
 }
 
 .hero-headline span:nth-child(1) { animation-delay: 0.1s; }
-.hero-headline span:nth-child(2) { animation-delay: 0.2s; }
-.hero-headline span:nth-child(3) { animation-delay: 0.3s; }
+.hero-headline span:nth-child(2) { animation-delay: 0.3s; }
+.hero-headline span:nth-child(3) { animation-delay: 0.5s; }
+.hero-headline span:nth-child(4) { animation-delay: 0.7s; }
+
 .hero-headline {
-  font-size: clamp(32px, 6vw, 80px);
+  font-size: clamp(2rem, 8vw, 5rem);
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 20px rgba(255, 212, 0, 0.3);
+}
+
+@keyframes reveal {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 /* Service cards */
@@ -137,7 +169,25 @@
   transition: background-color 0.3s, color 0.3s;
 }
 
-/* Results and history as full-screen modals */
+/* Findings list styling */
+.findings {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.findings li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.findings li.danger {
+  color: #ff6b6b;
+}
+
+.findings li.safe {
+  color: #51cf66;
+}
 .result, .history {
   position: fixed;
   top: 0;
@@ -152,11 +202,11 @@
   display: none;
 }
 
-.result.show, .history.show {
+.result.show, .history.show, .loader.show {
   display: flex;
 }
 
-.result-container, .history-container {
+.result-container, .history-container, .loader-container {
   background: var(--gray-900);
   border: 1px solid var(--yellow);
   padding: 2rem;
@@ -166,6 +216,41 @@
   position: relative;
 }
 
+/* Loader Styles */
+.loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  display: none;
+}
+
+.loader.show {
+  display: flex;
+}
+
+.loader-spinner {
+  margin-bottom: 1rem;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .md\:grid-cols-3 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
@@ -173,16 +258,37 @@
   .space-x-6 > * + * { margin-left: 0; margin-top: 1rem; }
   .py-20 { padding-top: 3rem; padding-bottom: 3rem; }
   .py-28 { padding-top: 5rem; padding-bottom: 5rem; }
+
+  .hero-headline {
+    font-size: clamp(2rem, 12vw, 4rem);
+  }
+
+  .hero-headline span {
+    display: block;
+    margin-left: 0 !important;
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-headline span.block {
+    margin-bottom: 1rem;
+  }
 }
 
 /* Accessibility */
 @media (prefers-reduced-motion: reduce) {
   .hero-headline span {
     animation: none;
-    opacity: 1;
-    transform: none;
+    opacity: 1 !important;
+    transform: none !important;
   }
   .service-card, .check-form button {
     transition: none;
   }
+}
+
+/* Fallback for browsers without CSS animation support */
+.no-js .hero-headline span,
+.hero-headline span {
+  opacity: 1;
+  transform: none;
 }

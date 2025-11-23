@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>Analytics Dashboard - Phishing Detector</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/css/style.css">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    </head>
+    <body>
+        <section class="bg-black relative overflow-hidden min-h-screen">
+            <!-- grain overlay -->
+            <div class="pointer-events-none absolute inset-0 bg-[url('/assets/noise.png')] opacity-5"></div>
+
+            <header class="max-w-7xl mx-auto px-6 py-6 flex justify-between items-center">
+                <div class="text-yellow-400 font-mono tracking-widest">PHISHING DETECTOR</div>
+                <nav class="text-gray-300 uppercase text-sm space-x-6 hidden md:flex">
+                    <a href="/">Home</a><a href="/developer.html">Developer</a><a href="#about">About</a>
+                </nav>
+            </header>
+
+            <div class="max-w-7xl mx-auto px-6 py-10 md:py-16">
+                <h1 class="font-mono uppercase text-yellow-400 leading-none tracking-wider mb-2">
+                    <span class="inline-block">ANALYTICS</span>
+                    <span class="block">DASHBOARD</span>
+                </h1>
+                <p class="text-gray-400 uppercase tracking-wider">Real-time insights and threat analysis metrics</p>
+            </div>
+
+            <!-- Stats Cards -->
+            <section class="max-w-7xl mx-auto px-6 py-8">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8" id="statsCards">
+                    <!-- Cards will be populated by JavaScript -->
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Daily Trend Chart -->
+                    <div class="bg-gray-900 border border-yellow-400 p-6">
+                        <h3 class="text-yellow-400 font-mono uppercase mb-4">Analysis Trend (7 Days)</h3>
+                        <canvas id="dailyTrendChart"></canvas>
+                    </div>
+
+                    <!-- Risk Distribution -->
+                    <div class="bg-gray-900 border border-yellow-400 p-6">
+                        <h3 class="text-yellow-400 font-mono uppercase mb-4">Risk Score Distribution</h3>
+                        <canvas id="riskDistributionChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+                    <!-- Top Threat Categories -->
+                    <div class="bg-gray-900 border border-yellow-400 p-6">
+                        <h3 class="text-yellow-400 font-mono uppercase mb-4">Top Threat Categories</h3>
+                        <canvas id="threatCategoriesChart"></canvas>
+                    </div>
+
+                    <!-- Recent Analyses -->
+                    <div class="bg-gray-900 border border-yellow-400 p-6">
+                        <h3 class="text-yellow-400 font-mono uppercase mb-4">Recent Analyses</h3>
+                        <div id="recentAnalyses" class="space-y-2 max-h-64 overflow-y-auto">
+                            <!-- Recent analyses will be populated here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Threat Intelligence Status -->
+                <div class="bg-gray-900 border border-yellow-400 p-6 mt-6">
+                    <h3 class="text-yellow-400 font-mono uppercase mb-4">Threat Intelligence Status</h3>
+                    <div id="threatIntelStatus" class="text-gray-400">
+                        <!-- Status will be populated by JavaScript -->
+                    </div>
+                </div>
+            </section>
+
+            <footer class="footer max-w-7xl mx-auto px-6 py-6">
+                <div class="footer-container text-center">
+                    <p class="text-gray-400 text-sm">Built with modular detection engine · <a href="/developer.html" class="text-yellow-400 hover:underline">API Docs</a></p>
+                </div>
+            </footer>
+        </section>
+
+        <script>
+            // Load analytics data and render dashboard
+            async function loadDashboard() {
+                try {
+                    const response = await fetch('/api/v1/analytics/dashboard');
+                    const data = await response.json();
+                    renderStatsCards(data);
+                    renderDailyTrendChart(data.dailyTrend);
+                    renderRiskDistributionChart(data.riskDistribution);
+                    renderThreatCategoriesChart(data.topThreatCategories);
+                    renderRecentAnalyses(data.recentAnalyses || []);
+                } catch (error) {
+                    console.error('Failed to load dashboard data:', error);
+                }
+
+                try {
+                    const response = await fetch('/api/v1/phishing/threat-intelligence/status');
+                    const statusText = await response.text();
+                    document.getElementById('threatIntelStatus').textContent = statusText;
+                } catch (error) {
+                    console.error('Failed to load threat intelligence status:', error);
+                }
+            }
+
+            function renderStatsCards(data) {
+                const cards = [
+                    { title: 'Total Analyses', value: data.totalAnalyses, color: 'text-blue-400' },
+                    { title: 'Threats Detected', value: data.threatCount, color: 'text-red-400' },
+                    { title: 'Safe URLs', value: data.safeCount, color: 'text-green-400' },
+                    { title: 'Threat Rate', value: data.threatPercentage.toFixed(1) + '%', color: 'text-yellow-400' }
+                ];
+
+                const container = document.getElementById('statsCards');
+                container.innerHTML = cards.map(card => `
+                    <div class="bg-gray-900 border border-yellow-400 p-4 text-center">
+                        <div class="text-2xl font-mono ${card.color} mb-1">${card.value}</div>
+                        <div class="text-gray-400 uppercase text-sm">${card.title}</div>
+                    </div>
+                `).join('');
+            }
+
+            function renderDailyTrendChart(dailyTrend) {
+                const ctx = document.getElementById('dailyTrendChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: Object.keys(dailyTrend),
+                        datasets: [{
+                            label: 'Analyses',
+                            data: Object.values(dailyTrend),
+                            borderColor: '#fbbf24',
+                            backgroundColor: 'rgba(251, 191, 36, 0.1)',
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: { color: '#374151' },
+                                ticks: { color: '#9ca3af' }
+                            },
+                            x: {
+                                grid: { color: '#374151' },
+                                ticks: { color: '#9ca3af' }
+                            }
+                        }
+                    }
+                });
+            }
+
+            function renderRiskDistributionChart(riskDistribution) {
+                const ctx = document.getElementById('riskDistributionChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: Object.keys(riskDistribution),
+                        datasets: [{
+                            data: Object.values(riskDistribution),
+                            backgroundColor: [
+                                '#10b981', // green
+                                '#fbbf24', // yellow
+                                '#f59e0b', // orange
+                                '#ef4444'  // red
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: { color: '#9ca3af' }
+                            }
+                        }
+                    }
+                });
+            }
+
+            function renderThreatCategoriesChart(threatCategories) {
+                const ctx = document.getElementById('threatCategoriesChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: Object.keys(threatCategories),
+                        datasets: [{
+                            label: 'Occurrences',
+                            data: Object.values(threatCategories),
+                            backgroundColor: '#fbbf24',
+                            borderColor: '#f59e0b',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: { color: '#374151' },
+                                ticks: { color: '#9ca3af' }
+                            },
+                            x: {
+                                grid: { color: '#374151' },
+                                ticks: { color: '#9ca3af' }
+                            }
+                        }
+                    }
+                });
+            }
+
+            function renderRecentAnalyses(analyses) {
+                const container = document.getElementById('recentAnalyses');
+                if (analyses.length === 0) {
+                    container.innerHTML = '<p class="text-gray-500">No recent analyses</p>';
+                    return;
+                }
+
+                container.innerHTML = analyses.map(analysis => `
+                    <div class="flex justify-between items-center py-2 border-b border-gray-700">
+                        <div class="flex-1">
+                            <div class="text-sm text-gray-300 truncate">${analysis.url}</div>
+                            <div class="text-xs text-gray-500">${new Date(analysis.timestamp).toLocaleString()}</div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-xs px-2 py-1 rounded ${analysis.isThreatDetected ? 'bg-red-900 text-red-300' : 'bg-green-900 text-green-300'}">
+                                ${analysis.isThreatDetected ? 'THREAT' : 'SAFE'}
+                            </span>
+                            <span class="text-xs text-yellow-400">${analysis.totalRiskScore.toFixed(1)}</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // Load dashboard on page load
+            document.addEventListener('DOMContentLoaded', loadDashboard);
+        </script>
+    </body>
+</html>
