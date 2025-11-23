@@ -18,10 +18,8 @@ public class TyposquattingRule implements DetectionRule {
         String domain = urlInfo.getDomain();
 
         for (String popular : POPULAR_DOMAINS) {
-            if (domain.contains(popular.replace(".com", "")) && !domain.equals(popular)) {
-                if (calculateEditDistance(domain, popular) <= 2) {
-                    return DetectionResult.threat(35.0, "Possible typosquatting of popular domain");
-                }
+            if (!domain.equals(popular) && calculateEditDistance(domain, popular) <= 2) {
+                return DetectionResult.threat(35.0, "Possible typosquatting of popular domain");
             }
         }
         return DetectionResult.safe();

@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   clearBtn.addEventListener('click', () => {
     urlInput.value = '';
-    resultSection.classList.add('hidden');
+    resultSection.classList.remove('show');
   });
 
   const historyListEl = document.getElementById('historyList');
@@ -34,10 +34,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const items = loadHistory();
     historyListEl.innerHTML = '';
     if (!items.length) {
-      historySection.classList.add('hidden');
+      historySection.classList.remove('show');
       return;
     }
-    historySection.classList.remove('hidden');
+    historySection.classList.add('show');
     items.forEach(it => {
       const li = document.createElement('li');
       li.className = it.isPhishing ? 'danger' : 'safe';
@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
       rawResponse.textContent = JSON.stringify(data, null, 2);
       rawResponse.classList.remove('hidden');
 
-      resultSection.classList.remove('hidden');
+      resultSection.classList.add('show');
 
       // add to history
       try {
