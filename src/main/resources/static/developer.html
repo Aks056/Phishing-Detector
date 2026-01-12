@@ -5,6 +5,222 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Developer Docs - Phishing Detector</title>
     <link rel="stylesheet" href="/css/style.css">
+    <style>
+      html {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(135deg, #0b0b0b 0%, #1a1a2e 100%);
+        color: #e0e0e0;
+        font-family: 'IBM Plex Mono', monospace;
+        min-height: 100vh;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #0b0b0b 0%, #1a1a2e 100%);
+        z-index: -1;
+      }
+
+      main {
+        padding: 40px 20px;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0;
+      }
+
+      h1 {
+        color: #FFD400;
+        font-size: 3em;
+        margin-bottom: 10px;
+        text-shadow: 0 0 20px rgba(255, 212, 0, 0.3);
+        animation: slideInDown 0.6s ease-out;
+      }
+
+      h2 {
+        color: #FFD400;
+        font-size: 1.8em;
+        margin-top: 20px;
+        margin-bottom: 15px;
+        border-bottom: 2px solid #FFD400;
+        padding-bottom: 10px;
+        transition: all 0.3s ease;
+      }
+
+      h2:hover {
+        text-shadow: 0 0 15px rgba(255, 212, 0, 0.5);
+        transform: translateX(10px);
+      }
+
+      p {
+        line-height: 1.8;
+        margin: 15px 0;
+        color: #c0c0c0;
+      }
+
+      .muted-small {
+        color: #808080;
+        font-size: 0.9em;
+        font-style: italic;
+        margin-bottom: 30px;
+      }
+
+      .card {
+        background: rgba(30, 30, 50, 0.8);
+        border: 2px solid #FFD400;
+        border-radius: 10px;
+        padding: 30px;
+        margin: 30px 0;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 8px 32px rgba(255, 212, 0, 0.1);
+        transition: all 0.3s ease;
+        animation: slideInUp 0.6s ease-out;
+      }
+
+      .card:hover {
+        border-color: #ffed4e;
+        box-shadow: 0 8px 32px rgba(255, 212, 0, 0.3);
+        transform: translateY(-5px);
+      }
+
+      pre {
+        background: #0b0b0b;
+        border-left: 4px solid #FFD400;
+        padding: 15px;
+        border-radius: 5px;
+        overflow-x: auto;
+        margin: 15px 0;
+        color: #51cf66;
+        font-size: 0.9em;
+        transition: all 0.3s ease;
+      }
+
+      pre:hover {
+        background: #1a1a2e;
+        box-shadow: inset 0 0 10px rgba(255, 212, 0, 0.1);
+      }
+
+      ul {
+        list-style: none;
+        padding-left: 0;
+        margin: 20px 0;
+      }
+
+      li {
+        padding: 12px 15px;
+        margin: 8px 0;
+        background: rgba(255, 212, 0, 0.05);
+        border-left: 3px solid #FFD400;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+
+      li:hover {
+        background: rgba(255, 212, 0, 0.15);
+        transform: translateX(5px);
+        box-shadow: 0 4px 12px rgba(255, 212, 0, 0.2);
+      }
+
+      strong {
+        color: #FFD400;
+        font-weight: 600;
+      }
+
+      em {
+        color: #81c784;
+        font-style: italic;
+      }
+
+      a {
+        color: #FFD400;
+        text-decoration: none;
+        border-bottom: 2px solid transparent;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      a:hover {
+        border-bottom-color: #FFD400;
+        text-shadow: 0 0 10px rgba(255, 212, 0, 0.5);
+      }
+
+      a::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: #FFD400;
+        transition: width 0.3s ease;
+      }
+
+      a:hover::after {
+        width: 100%;
+      }
+
+      @keyframes slideInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes slideInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 600px) {
+        h1 {
+          font-size: 2em;
+        }
+
+        .card {
+          padding: 20px;
+          margin: 20px 0;
+        }
+
+        h2 {
+          font-size: 1.4em;
+        }
+      }
+    </style>
   </head>
   <body>
     <main class="container">

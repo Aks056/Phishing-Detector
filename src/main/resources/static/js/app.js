@@ -146,6 +146,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Globe initialization
 function initGlobe(container) {
+  if (typeof THREE === 'undefined') {
+    console.error('THREE.js library not loaded');
+    return;
+  }
+  
   const scene = new THREE.Scene();
   const w = container.clientWidth, h = container.clientHeight;
   const camera = new THREE.PerspectiveCamera(45, w/h, 0.1, 1000);
@@ -200,7 +205,9 @@ function initGlobe(container) {
 // Initialize globe on load
 document.addEventListener('DOMContentLoaded', () => {
   const globeContainer = document.getElementById('globe');
-  if (globeContainer) {
+  if (globeContainer && typeof THREE !== 'undefined') {
     initGlobe(globeContainer);
+  } else if (globeContainer) {
+    console.warn('THREE.js not loaded. Globe visualization skipped.');
   }
 });
