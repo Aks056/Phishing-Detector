@@ -34,7 +34,7 @@
 
                 <div class="mt-6 flex gap-4">
                     <button class="bg-yellow-400 text-black px-6 py-3 font-semibold uppercase rounded-sm shadow-sm" onclick="document.getElementById('url_input').focus()">Analyze</button>
-                    <button class="border border-yellow-400 text-yellow-400 px-6 py-3 uppercase rounded-sm" onclick="document.getElementById('about').scrollIntoView()">About</button>
+                    <button class="bg-yellow-400 text-gray-600 px-6 py-3 uppercase rounded-sm font-semibold hover:bg-yellow-300 transition" onclick="document.getElementById('about').scrollIntoView()">About</button>
                 </div>
             </div>
 
@@ -63,13 +63,13 @@
                 <form id="checkForm" class="check-form flex gap-4 max-w-md" autocomplete="off">
                     <input id="url_input" name="url" type="url" placeholder="Enter URL to analyze..." required class="flex-1 bg-gray-900 border border-yellow-400 text-white px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400">
                     <button id="checkBtn" type="submit" class="bg-yellow-400 text-black px-4 py-2 font-semibold uppercase rounded-sm hover:bg-yellow-500 transition">ANALYZE</button>
-                    <button id="clearBtn" type="button" class="border border-yellow-400 text-yellow-400 px-4 py-2 uppercase rounded-sm hover:bg-yellow-400 hover:text-black transition">CLEAR</button>
+                    <button id="clearBtn" type="button" class="border border-yellow-400 bg-yellow-400 text-black px-4 py-2 uppercase rounded-sm font-bold transition" style="transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#ff6b6b'; this.style.borderColor='#ff6b6b'; this.style.color='white';" onmouseout="this.style.backgroundColor='#FFD400'; this.style.borderColor='#FFD400'; this.style.color='black';">CLEAR</button>
                 </form>
             </section>
 
             <section id="result" class="result">
                 <div class="result-container bg-gray-900 border border-yellow-400 p-6 relative">
-                    <button class="absolute top-2 right-2 text-yellow-400 hover:text-white" onclick="document.getElementById('result').classList.remove('show')">×</button>
+                    <button class="absolute top-2 right-2 bg-yellow-400 text-black text-3xl font-bold px-3 py-1 rounded transition" style="transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#ff6b6b';" onmouseout="this.style.backgroundColor='#FFD400';" onclick="document.getElementById('result').classList.remove('show')">×</button>
                     <div class="result-header flex justify-between items-center mb-4">
                         <h2 id="verdict" class="text-yellow-400 font-mono uppercase text-xl">—</h2>
                         <div id="scoreBadge" class="badge bg-yellow-400 text-black px-3 py-1 font-semibold uppercase">Score: —</div>
@@ -96,7 +96,7 @@
 
             <section id="history" class="history hidden max-w-7xl mx-auto px-6 py-16">
                 <div class="history-container bg-gray-900 border border-yellow-400 p-6 relative">
-                    <button class="absolute top-2 right-2 text-yellow-400 hover:text-white" onclick="document.getElementById('history').classList.remove('show')">×</button>
+                    <button class="absolute top-2 right-2 bg-yellow-400 text-black text-3xl font-bold px-3 py-1 rounded transition" style="transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#ff6b6b';" onmouseout="this.style.backgroundColor='#FFD400';" onclick="document.getElementById('history').classList.remove('show')">×</button>
                     <h3 class="text-yellow-400 font-mono uppercase mb-4">Recent Checks</h3>
                     <ul id="historyList" class="findings text-gray-400 mb-4"></ul>
                     <button id="clearHistory" class="border border-yellow-400 bg-yellow-400 text-black px-4 py-2 uppercase rounded-sm font-bold hover:bg-white hover:text-black hover:border-white transition">Clear History</button>
