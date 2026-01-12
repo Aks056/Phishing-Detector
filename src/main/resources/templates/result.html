@@ -10,6 +10,41 @@
         .safe { border: 2px solid #2a5a2a; }
         .phishing { border: 2px solid #7f1d1d; }
         .url-checked { word-wrap: break-word; background-color: #333; padding: 10px; border-radius: 5px; }
+        
+        /* Risk Level Styling */
+        .risk-info { 
+            padding: 15px; 
+            border-radius: 8px; 
+            margin-top: 15px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .risk-low { 
+            background-color: #2d5a2d;
+            border: 2px solid #4ade80;
+            color: #d1fae5;
+        }
+        
+        .risk-medium { 
+            background-color: #5a5019;
+            border: 2px solid #fbbf24;
+            color: #fffbeb;
+        }
+        
+        .risk-high { 
+            background-color: #5a2d2d;
+            border: 2px solid #ff8080;
+            color: #fee2e2;
+        }
+        
+        .risk-score-display {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
         ul { list-style-type: none; padding-left: 0; }
         li.phishing-item::before { content: '❌ '; color: #ff8a8a; }
         li.safe-item::before { content: '✅ '; color: #8aff8a; }
@@ -21,8 +56,29 @@
     <p class="url-checked" th:text="${checkedUrl}"></p>
 
     <div th:if="${riskScore != null}">
-        <p><strong>Risk score:</strong> <span th:text="${riskScore}"></span></p>
-        <p><strong>Risk level:</strong> <span th:text="${riskLevel}"></span></p>
+        <div th:if="${riskLevel == 'LOW'}" style="background-color: #1a472b !important; border: 3px solid #4ade80 !important; color: #d1fae5 !important; padding: 20px; border-radius: 8px; margin-top: 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <p style="margin: 0; font-size: 18px;"><strong>Risk Level:</strong> <span style="color: #4ade80 !important; font-size: 20px;" th:text="${riskLevel}"></span></p>
+                <p style="margin: 8px 0 0 0; font-size: 14px;">✅ Safe to proceed</p>
+            </div>
+            <div style="font-size: 28px; font-weight: bold; color: #4ade80 !important;" th:text="'Score: ' + ${#numbers.formatDecimal(riskScore, 1, 2)}"></div>
+        </div>
+        
+        <div th:if="${riskLevel == 'MEDIUM'}" style="background-color: #4a3b1f !important; border: 3px solid #fbbf24 !important; color: #fffbeb !important; padding: 20px; border-radius: 8px; margin-top: 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <p style="margin: 0; font-size: 18px;"><strong>Risk Level:</strong> <span style="color: #fbbf24 !important; font-size: 20px;" th:text="${riskLevel}"></span></p>
+                <p style="margin: 8px 0 0 0; font-size: 14px;">⚠️ Exercise caution</p>
+            </div>
+            <div style="font-size: 28px; font-weight: bold; color: #fbbf24 !important;" th:text="'Score: ' + ${#numbers.formatDecimal(riskScore, 1, 2)}"></div>
+        </div>
+        
+        <div th:if="${riskLevel == 'HIGH'}" style="background-color: #4a2a2a !important; border: 3px solid #ff6b6b !important; color: #fee2e2 !important; padding: 20px; border-radius: 8px; margin-top: 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <p style="margin: 0; font-size: 18px;"><strong>Risk Level:</strong> <span style="color: #ff6b6b !important; font-size: 20px;" th:text="${riskLevel}"></span></p>
+                <p style="margin: 8px 0 0 0; font-size: 14px;">🚨 Likely malicious</p>
+            </div>
+            <div style="font-size: 28px; font-weight: bold; color: #ff6b6b !important;" th:text="'Score: ' + ${#numbers.formatDecimal(riskScore, 1, 2)}"></div>
+        </div>
     </div>
 
     <div th:if="${isPhishing}" class="result-box phishing">

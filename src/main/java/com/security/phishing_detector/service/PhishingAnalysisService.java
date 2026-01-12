@@ -1,5 +1,11 @@
 package com.security.phishing_detector.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.security.phishing_detector.detection.DetectionResult;
 import com.security.phishing_detector.detection.PhishingDetectionEngine;
 import com.security.phishing_detector.domain.AnalysisHistory;
@@ -7,10 +13,6 @@ import com.security.phishing_detector.domain.RiskLevel;
 import com.security.phishing_detector.domain.ThreatAnalysis;
 import com.security.phishing_detector.domain.UrlInfo;
 import com.security.phishing_detector.repository.AnalysisHistoryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class PhishingAnalysisService {
@@ -44,7 +46,13 @@ public class PhishingAnalysisService {
                     .map(DetectionResult::getThreatDescription)
                     .collect(Collectors.toList());
 
-            boolean isPhishing = totalRiskScore > 50;
+            // Enhanced phishing detection logic
+            boolean isPhishing = false;
+            
+            if (totalRiskScore >= 30) isPhishing = true;
+            if (hasSuspiciousSubdomain(urlInfo)) isPhishing = true;
+            if (!urlInfo.isHttps()) isPhishing = true;
+            if (hasFakeBrandDetected(threats)) isPhishing = true;
             RiskLevel riskLevel = RiskLevel.fromScore(totalRiskScore);
 
             ThreatAnalysis analysis = new ThreatAnalysis(url, isPhishing, totalRiskScore, threats, riskLevel);
@@ -71,6 +79,19 @@ public class PhishingAnalysisService {
                 100.0,
                 List.of(error),
                 RiskLevel.HIGH
+        );
+    }
+
+    private boolean hasSuspiciousSubdomain(UrlInfo urlInfo) {
+        int subdomainCount = urlInfo.getDomain().split("\\.").length;
+        return subdomainCount > 4;
+    }
+
+    private boolean hasFakeBrandDetected(List<String> threats) {
+        return threats.stream().anyMatch(threat -> 
+            threat.toLowerCase().contains("homograph") || 
+            threat.toLowerCase().contains("typosquat") ||
+            threat.toLowerCase().contains("brand")
         );
     }
 }

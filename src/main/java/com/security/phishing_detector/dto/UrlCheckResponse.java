@@ -1,10 +1,13 @@
 package com.security.phishing_detector.dto;
 
-import com.security.phishing_detector.domain.ThreatAnalysis;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.security.phishing_detector.domain.ThreatAnalysis;
 
 public class UrlCheckResponse {
     private String url;
+    @JsonProperty("isPhishing")
     private boolean isPhishing;
     private double riskScore;
     private String riskLevel;
