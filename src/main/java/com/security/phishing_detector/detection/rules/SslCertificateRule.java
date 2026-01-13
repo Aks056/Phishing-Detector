@@ -1,12 +1,15 @@
 package com.security.phishing_detector.detection.rules;
 
+import java.net.URI;
+import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
+
+import org.springframework.stereotype.Component;
+
 import com.security.phishing_detector.detection.DetectionResult;
 import com.security.phishing_detector.detection.DetectionRule;
 import com.security.phishing_detector.domain.UrlInfo;
-import org.springframework.stereotype.Component;
-
-import javax.net.ssl.HttpsURLConnection;
-import java.net.URL;
 
 @Component
 public class SslCertificateRule implements DetectionRule {
@@ -19,7 +22,8 @@ public class SslCertificateRule implements DetectionRule {
         }
 
         try {
-            URL httpsUrl = new URL(url);
+            URI httpsUri = URI.create(url);
+            URL httpsUrl = httpsUri.toURL();
             HttpsURLConnection connection = (HttpsURLConnection) httpsUrl.openConnection();
             connection.setConnectTimeout(5000);
             connection.setReadTimeout(5000);

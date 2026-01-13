@@ -70,6 +70,9 @@
             <section id="result" class="result">
                 <div class="result-container bg-gray-900 border border-yellow-400 p-6 relative">
                     <button class="absolute top-2 right-2 bg-yellow-400 text-black text-3xl font-bold px-3 py-1 rounded transition" style="transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#ff6b6b';" onmouseout="this.style.backgroundColor='#FFD400';" onclick="document.getElementById('result').classList.remove('show')">×</button>
+                    <div class="result-image-container mb-4">
+                        <img src="/images/h2.jpeg" alt="Security Analysis" class="result-image">
+                    </div>
                     <div class="result-header flex justify-between items-center mb-4">
                         <h2 id="verdict" class="text-yellow-400 font-mono uppercase text-xl">—</h2>
                         <div id="scoreBadge" class="badge bg-yellow-400 text-black px-3 py-1 font-semibold uppercase">Score: —</div>
@@ -80,7 +83,15 @@
                         <h3 class="text-yellow-400 font-mono uppercase mb-2">Findings</h3>
                         <ul id="reasonsList" class="findings text-gray-400"></ul>
                     </div>
-                    <pre id="rawResponse" class="raw hidden bg-black p-4 mt-4 text-green-400"></pre>
+                    <div id="recommendationBlock" class="mt-4">
+                        <h3 class="text-yellow-400 font-mono uppercase mb-2">Recommendation</h3>
+                        <p id="recommendation" class="text-gray-400">—</p>
+                    </div>
+                    <div id="visitWebsiteBlock" class="mt-6 text-center">
+                        <button id="visitWebsiteBtn" class="bg-yellow-400 text-black px-6 py-3 font-semibold uppercase rounded-sm hover:bg-yellow-500 transition">
+                            Visit Website
+                        </button>
+                    </div>
                 </div>
             </section>
 

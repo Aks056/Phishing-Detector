@@ -198,7 +198,8 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.95);
+  background: #000000 !important;
+  background-image: none !important;
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -211,13 +212,77 @@
 }
 
 .result-container, .history-container, .loader-container {
-  background: var(--gray-900);
+  background: var(--gray-900) !important;
+  background-image: none !important;
   border: 1px solid var(--yellow);
   padding: 2rem;
   max-width: 800px;
   max-height: 80vh;
   overflow-y: auto;
   position: relative;
+  box-shadow: 0 8px 32px rgba(255, 212, 0, 0.15);
+  animation: slideIn 0.4s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Result image styling */
+.result-image-container {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 212, 0, 0.2);
+}
+
+.result-image {
+  max-width: 100%;
+  height: auto;
+  max-height: 200px;
+  border-radius: 8px;
+  border: 2px solid var(--yellow);
+  box-shadow: 0 4px 15px rgba(255, 212, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  object-fit: cover;
+}
+
+.result-image:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 20px rgba(255, 212, 0, 0.5);
+}
+
+/* Result header styling */
+.result-header {
+  padding: 0.75rem;
+  background: rgba(255, 212, 0, 0.05);
+  border-left: 3px solid var(--yellow);
+  margin-bottom: 1rem;
+}
+
+/* Raw response styling - ensure no background image shows through */
+.raw, #rawResponse {
+  background: #000000 !important;
+  background-image: none !important;
+  background-attachment: scroll !important;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Loader Styles */

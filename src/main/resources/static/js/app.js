@@ -10,12 +10,50 @@ document.addEventListener('DOMContentLoaded', () => {
   const checkedUrl = document.getElementById('checkedUrl');
   const scoreBadge = document.getElementById('scoreBadge');
   const riskLevelEl = document.getElementById('riskLevel');
-  const rawResponse = document.getElementById('rawResponse');
+  const recommendationEl = document.getElementById('recommendation');
+  const visitWebsiteBtn = document.getElementById('visitWebsiteBtn');
+  
+  let currentAnalyzedUrl = '';
+  let currentRiskLevel = '';
 
   // Hide loader after initialization
   setTimeout(() => {
     loaderSection.classList.remove('show');
   }, 2000);
+
+  // Visit website button handler
+  if (visitWebsiteBtn) {
+    visitWebsiteBtn.addEventListener('click', () => {
+      if (!currentAnalyzedUrl) return;
+
+      // Check risk level
+      const riskLevelUpper = currentRiskLevel.toUpperCase();
+      
+      if (riskLevelUpper.includes('LOW RISK') || riskLevelUpper === 'LOW') {
+        // Safe URL - open directly
+        window.open(currentAnalyzedUrl, '_blank', 'noopener,noreferrer');
+      } else if (riskLevelUpper.includes('MEDIUM RISK') || riskLevelUpper === 'MEDIUM' || 
+                 riskLevelUpper.includes('HIGH RISK') || riskLevelUpper === 'HIGH') {
+        // Medium or High risk - show warning alert
+        const proceed = confirm(
+          '⚠️ WARNING ⚠️\n\n' +
+          'This website has been flagged as ' + currentRiskLevel + '.\n\n' +
+          'Potential security risks detected:\n' +
+          '- ' + (riskLevelUpper.includes('MEDIUM') ? 'Medium risk indicators found' : 'High risk indicators found') + '\n' +
+          '- Exercise extreme caution\n\n' +
+          'Do you still want to proceed and visit this website?\n\n' +
+          'Click OK to continue or Cancel to stay safe.'
+        );
+        
+        if (proceed) {
+          window.open(currentAnalyzedUrl, '_blank', 'noopener,noreferrer');
+        }
+      } else {
+        // Default - open directly if no specific risk level
+        window.open(currentAnalyzedUrl, '_blank', 'noopener,noreferrer');
+      }
+    });
+  }
 
   clearBtn.addEventListener('click', () => {
     urlInput.value = '';
@@ -97,6 +135,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const reasons = Array.isArray(data.detectedThreats) ? data.detectedThreats : [];
       const recommendation = data.recommendation || '';
 
+      // Store current URL and risk level for visit button
+      currentAnalyzedUrl = url;
+      currentRiskLevel = level.toUpperCase();
+
       // Populate UI
       verdictEl.textContent = isPhishing ? 'Phishing Detected' : 'Appears Safe';
       verdictEl.style.color = isPhishing ? 'var(--danger)' : 'var(--safe)';
@@ -120,8 +162,25 @@ document.addEventListener('DOMContentLoaded', () => {
         reasonsList.appendChild(li);
       }
 
-      rawResponse.textContent = JSON.stringify(data, null, 2);
-      rawResponse.classList.remove('hidden');
+      // recommendation
+      if (recommendationEl) {
+        recommendationEl.textContent = recommendation || 'No recommendation available.';
+        recommendationEl.style.color = isPhishing ? 'var(--danger)' : 'var(--safe)';
+      }
+
+      // Show/hide visit website button based on risk level
+      // Show button for LOW and MEDIUM risk, hide only for HIGH risk
+      if (visitWebsiteBtn) {
+        const riskLevelUpper = currentRiskLevel.toUpperCase();
+        // Only hide button for HIGH RISK, show for LOW and MEDIUM (even if isPhishing is true for medium)
+        // Check for various HIGH risk formats
+        if (riskLevelUpper.includes('HIGH RISK') || riskLevelUpper === 'HIGH' || riskLevelUpper.includes('HIGH RISK')) {
+          visitWebsiteBtn.style.display = 'none';
+        } else {
+          // Show button for LOW RISK, MEDIUM RISK, or any other non-HIGH risk level
+          visitWebsiteBtn.style.display = 'inline-block';
+        }
+      }
 
       resultSection.classList.add('show');
       loaderSection.classList.remove('show');

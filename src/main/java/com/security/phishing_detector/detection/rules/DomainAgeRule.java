@@ -1,17 +1,17 @@
 package com.security.phishing_detector.detection.rules;
 
-import com.security.phishing_detector.detection.DetectionResult;
-import com.security.phishing_detector.detection.DetectionRule;
-import com.security.phishing_detector.domain.UrlInfo;
-import org.apache.commons.net.whois.WhoisClient;
-import org.springframework.stereotype.Component;
-
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.commons.net.whois.WhoisClient;
+import org.springframework.stereotype.Component;
+
+import com.security.phishing_detector.detection.DetectionResult;
+import com.security.phishing_detector.detection.DetectionRule;
+import com.security.phishing_detector.domain.UrlInfo;
 
 @Component
 public class DomainAgeRule implements DetectionRule {
