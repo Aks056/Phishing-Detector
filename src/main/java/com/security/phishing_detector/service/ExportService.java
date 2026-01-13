@@ -11,7 +11,6 @@ import com.opencsv.CSVWriter;
 import com.security.phishing_detector.domain.AnalysisHistory;
 import com.security.phishing_detector.detection.DetectionResult;
 import com.security.phishing_detector.repository.AnalysisHistoryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
@@ -24,7 +23,6 @@ public class ExportService {
 
     private final AnalysisHistoryRepository historyRepository;
 
-    @Autowired
     public ExportService(AnalysisHistoryRepository historyRepository) {
         this.historyRepository = historyRepository;
     }

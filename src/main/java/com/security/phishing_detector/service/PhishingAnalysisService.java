@@ -3,7 +3,6 @@ package com.security.phishing_detector.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.security.phishing_detector.detection.DetectionResult;
@@ -19,7 +18,6 @@ public class PhishingAnalysisService {
     private final PhishingDetectionEngine detectionEngine;
     private final AnalysisHistoryRepository historyRepository;
 
-    @Autowired
     public PhishingAnalysisService(PhishingDetectionEngine detectionEngine, AnalysisHistoryRepository historyRepository) {
         this.detectionEngine = detectionEngine;
         this.historyRepository = historyRepository;

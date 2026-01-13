@@ -1,15 +1,18 @@
 package com.security.phishing_detector.service;
 
-import com.security.phishing_detector.domain.AnalysisHistory;
-import com.security.phishing_detector.repository.AnalysisHistoryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+
+import com.security.phishing_detector.domain.AnalysisHistory;
+import com.security.phishing_detector.repository.AnalysisHistoryRepository;
 
 @Service
 public class AnalyticsService {
@@ -17,7 +20,6 @@ public class AnalyticsService {
     private final AnalysisHistoryRepository historyRepository;
     private final ThreatIntelligenceService threatIntelligenceService;
 
-    @Autowired
     public AnalyticsService(AnalysisHistoryRepository historyRepository, ThreatIntelligenceService threatIntelligenceService) {
         this.historyRepository = historyRepository;
         this.threatIntelligenceService = threatIntelligenceService;
