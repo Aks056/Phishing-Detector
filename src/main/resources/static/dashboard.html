@@ -11,16 +11,21 @@
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </head>
     <body>
+        <header>
+            <div class="container">
+                <div class="logo">🔒 PHISHING DETECTOR</div>
+                <nav>
+                    <a href="/">Home</a>
+                    <a href="/dashboard.html" class="active">Dashboard</a>
+                    <a href="/developer.html">Developer</a>
+                    <a href="/about.html">About</a>
+                </nav>
+            </div>
+        </header>
+
         <section class="bg-black relative overflow-hidden min-h-screen">
             <!-- grain overlay -->
             <div class="pointer-events-none absolute inset-0 bg-[url('/assets/noise.png')] opacity-5"></div>
-
-            <header class="max-w-7xl mx-auto px-6 py-6 flex justify-between items-center">
-                <div class="text-yellow-400 font-mono tracking-widest">PHISHING DETECTOR</div>
-                <nav class="text-gray-300 uppercase text-sm space-x-6 hidden md:flex">
-                    <a href="/">Home</a><a href="/developer.html">Developer</a><a href="#about">About</a>
-                </nav>
-            </header>
 
             <div class="max-w-7xl mx-auto px-6 py-10 md:py-16">
                 <h1 class="font-mono uppercase text-yellow-400 leading-none tracking-wider mb-2">
