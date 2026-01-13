@@ -1,20 +1,28 @@
 package com.security.phishing_detector.controller;
 
-import com.security.phishing_detector.dto.UrlCheckRequest;
-import com.security.phishing_detector.dto.UrlCheckResponse;
+import java.util.List;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.security.phishing_detector.domain.AnalysisHistory;
 import com.security.phishing_detector.domain.ThreatAnalysis;
+import com.security.phishing_detector.dto.UrlCheckRequest;
+import com.security.phishing_detector.dto.UrlCheckResponse;
 import com.security.phishing_detector.repository.AnalysisHistoryRepository;
 import com.security.phishing_detector.service.ExportService;
 import com.security.phishing_detector.service.PhishingAnalysisService;
 import com.security.phishing_detector.service.ThreatIntelligenceService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-        import jakarta.validation.Valid;
-import java.util.List;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/phishing")
@@ -26,7 +34,6 @@ public class PhishingDetectionController {
     private final ExportService exportService;
     private final ThreatIntelligenceService threatIntelligenceService;
 
-    @Autowired
     public PhishingDetectionController(PhishingAnalysisService phishingAnalysisService, AnalysisHistoryRepository historyRepository, ExportService exportService, ThreatIntelligenceService threatIntelligenceService) {
         this.phishingAnalysisService = phishingAnalysisService;
         this.historyRepository = historyRepository;
