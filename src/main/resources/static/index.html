@@ -3,22 +3,28 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+        <meta http-equiv="X-Frame-Options" content="DENY" />
+        <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+        <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+        <meta name="referrer" content="strict-origin-when-cross-origin" />
         <title>Phishing Detector</title>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
         <link rel="stylesheet" href="/css/style.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r150/three.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r150/three.min.js" integrity="sha512-K4LhhZw9j2O2mLkJ0G7RO3YZ7j4WkKPCL3YFm0CgGVG8rZL4+KZf5+GGc6z6aPwJlB5z+QO8QGnWG3k8Lq8C8A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     </head>
     <body>
         <header>
             <div class="container">
-                <div class="logo">🔒 PHISHING DETECTOR</div>
+                <div class="logo"><i class="fas fa-shield-alt"></i> PHISHING DETECTOR</div>
                 <nav>
-                    <a href="/" class="active">Home</a>
-                    <a href="/dashboard.html">Dashboard</a>
-                    <a href="/developer.html">Developer</a>
-                    <a href="/about.html">About</a>
+                    <a href="/" class="active"><i class="fas fa-home"></i> Home</a>
+                    <a href="/dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a>
+                    <a href="/developer.html"><i class="fas fa-code"></i> Developer</a>
+                    <a href="/about.html"><i class="fas fa-info-circle"></i> About</a>
                 </nav>
             </div>
         </header>
@@ -38,84 +44,138 @@
                 <p class="mt-4 max-w-xl text-gray-400 uppercase tracking-wider">Advanced phishing detection powered by modular AI-driven analysis</p>
 
                 <div class="mt-6 flex gap-4">
-                    <button class="bg-yellow-400 text-black px-6 py-3 font-semibold uppercase rounded-sm shadow-sm" onclick="document.getElementById('url_input').focus()">Analyze</button>
-                    <a href="/about.html" class="bg-yellow-400 text-gray-600 px-6 py-3 uppercase rounded-sm font-semibold hover:bg-yellow-300 transition inline-block text-center">About</a>
+                    <button class="btn btn-primary" onclick="document.getElementById('url_input').focus()">Analyze</button>
+                    <a href="/about.html" class="btn btn-ghost">About</a>
                 </div>
             </div>
 
             <section id="services" class="max-w-7xl mx-auto px-6 py-8">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div class="service-card bg-gray-900 border border-yellow-400 p-4 hover:transform hover:-translate-y-2 transition-transform">
+                        <div class="text-yellow-400 text-2xl mb-3"><i class="fas fa-search"></i></div>
                         <h3 class="text-yellow-400 font-mono uppercase text-sm mb-2">URL Analysis</h3>
                         <p class="text-gray-400 mb-3 text-sm">Instantly scan URLs for phishing indicators using our comprehensive detection engine.</p>
                         <button class="bg-yellow-400 text-black px-3 py-2 font-semibold uppercase rounded-sm text-xs" onclick="document.getElementById('url_input').focus()">Analyze Now</button>
                     </div>
                     <div class="service-card bg-gray-900 border border-yellow-400 p-4 hover:transform hover:-translate-y-2 transition-transform">
+                        <div class="text-yellow-400 text-2xl mb-3"><i class="fas fa-chart-bar"></i></div>
                         <h3 class="text-yellow-400 font-mono uppercase text-sm mb-2">Risk Scoring</h3>
                         <p class="text-gray-400 mb-3 text-sm">Get detailed risk scores and threat levels with actionable recommendations.</p>
                         <button class="bg-yellow-400 text-black px-3 py-2 font-semibold uppercase rounded-sm text-xs" onclick="document.getElementById('url_input').focus()">Check Risk</button>
                     </div>
                     <div class="service-card bg-gray-900 border border-yellow-400 p-4 hover:transform hover:-translate-y-2 transition-transform">
+                        <div class="text-yellow-400 text-2xl mb-3"><i class="fas fa-history"></i></div>
                         <h3 class="text-yellow-400 font-mono uppercase text-sm mb-2">Detection History</h3>
                         <p class="text-gray-400 mb-3 text-sm">Review your recent analyses and track patterns in suspicious URLs.</p>
-                        <button class="bg-yellow-400 text-black px-3 py-2 font-semibold uppercase rounded-sm text-xs" onclick="document.getElementById('history').classList.add('show')">View History</button>
+                        <button class="bg-yellow-400 text-black px-3 py-2 font-semibold uppercase rounded-sm text-xs" onclick="showHistory()">View History</button>
                     </div>
                 </div>
             </section>
 
             <section class="max-w-7xl mx-auto px-6 py-8">
-                <h2 class="text-yellow-400 font-mono uppercase text-xl mb-6">Quick URL Check</h2>
-                <form id="checkForm" class="check-form flex gap-4 max-w-md" autocomplete="off">
-                    <input id="url_input" name="url" type="url" placeholder="Enter URL to analyze..." required class="flex-1 bg-gray-900 border border-yellow-400 text-white px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400">
-                    <button id="checkBtn" type="submit" class="bg-yellow-400 text-black px-4 py-2 font-semibold uppercase rounded-sm hover:bg-yellow-500 transition">ANALYZE</button>
-                    <button id="clearBtn" type="button" class="border border-yellow-400 bg-yellow-400 text-black px-4 py-2 uppercase rounded-sm font-bold transition" style="transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#ff6b6b'; this.style.borderColor='#ff6b6b'; this.style.color='white';" onmouseout="this.style.backgroundColor='#FFD400'; this.style.borderColor='#FFD400'; this.style.color='black';">CLEAR</button>
+                <h2 class="text-yellow-400 font-mono uppercase text-xl mb-6 flex items-center gap-3">
+                    <i class="fas fa-search"></i>
+                    Quick URL Check
+                </h2>
+                <form id="checkForm" class="check-form flex flex-col sm:flex-row gap-4 max-w-2xl" autocomplete="off">
+                    <div class="flex-1 relative">
+                        <input id="url_input" name="url" type="url" placeholder="Enter URL to analyze..." required class="w-full">
+                    </div>
+                    <button id="checkBtn" type="submit" class="btn btn-primary flex items-center gap-2">
+                        <i class="fas fa-play"></i>
+                        ANALYZE
+                    </button>
+                    <button id="clearBtn" type="button" class="btn btn-ghost flex items-center gap-2" onclick="document.getElementById('url_input').value='';">
+                        <i class="fas fa-times"></i>
+                        CLEAR
+                    </button>
                 </form>
             </section>
 
             <section id="result" class="result">
                 <div class="result-container bg-gray-900 border border-yellow-400 p-6 relative">
-                    <button class="absolute top-2 right-2 bg-yellow-400 text-black text-3xl font-bold px-3 py-1 rounded transition" style="transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#ff6b6b';" onmouseout="this.style.backgroundColor='#FFD400';" onclick="document.getElementById('result').classList.remove('show')">×</button>
+                    <button class="absolute top-4 right-4 btn btn-ghost text-xl close-btn" aria-label="Close" onclick="document.getElementById('result').classList.remove('show')">
+                        <i class="fas fa-times"></i>
+                    </button>
                     <div class="result-image-container mb-4">
                         <img src="/images/h2.jpeg" alt="Security Analysis" class="result-image">
                     </div>
                     <div class="result-header flex justify-between items-center mb-4">
-                        <h2 id="verdict" class="text-yellow-400 font-mono uppercase text-xl">—</h2>
-                        <div id="scoreBadge" class="badge bg-yellow-400 text-black px-3 py-1 font-semibold uppercase">Score: —</div>
+                        <h2 id="verdict" class="text-yellow-400 font-mono uppercase text-xl flex items-center gap-2">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>—</span>
+                        </h2>
+                        <div id="scoreBadge" class="badge bg-yellow-400 text-black px-3 py-1 font-semibold uppercase flex items-center gap-2">
+                            <i class="fas fa-chart-line"></i>
+                            Score: —
+                        </div>
                     </div>
-                    <p class="checked-url text-gray-400 mb-2"><strong class="text-white">URL:</strong> <span id="checkedUrl"></span></p>
-                    <p class="text-gray-400 mb-4"><strong class="text-white">Risk Level:</strong> <span id="riskLevel">—</span></p>
-                    <div id="reasonsBlock">
-                        <h3 class="text-yellow-400 font-mono uppercase mb-2">Findings</h3>
+                    <div class="mb-4">
+                        <p class="checked-url text-gray-400 mb-2 flex items-center gap-2">
+                            <i class="fas fa-link text-yellow-400"></i>
+                            <strong class="text-white">URL:</strong> <span id="checkedUrl"></span>
+                        </p>
+                        <p class="text-gray-400 mb-4 flex items-center gap-2">
+                            <i class="fas fa-exclamation-triangle text-yellow-400"></i>
+                            <strong class="text-white">Risk Level:</strong> <span id="riskLevel">—</span>
+                        </p>
+                    </div>
+                    <div id="reasonsBlock" class="mb-4">
+                        <h3 class="text-yellow-400 font-mono uppercase mb-2 flex items-center gap-2">
+                            <i class="fas fa-list-ul"></i>
+                            Findings
+                        </h3>
                         <ul id="reasonsList" class="findings text-gray-400"></ul>
                     </div>
-                    <div id="recommendationBlock" class="mt-4">
-                        <h3 class="text-yellow-400 font-mono uppercase mb-2">Recommendation</h3>
+                    <div id="recommendationBlock" class="mb-6">
+                        <h3 class="text-yellow-400 font-mono uppercase mb-2 flex items-center gap-2">
+                            <i class="fas fa-lightbulb"></i>
+                            Recommendation
+                        </h3>
                         <p id="recommendation" class="text-gray-400">—</p>
                     </div>
-                    <div id="visitWebsiteBlock" class="mt-6 text-center">
-                        <button id="visitWebsiteBtn" class="bg-yellow-400 text-black px-6 py-3 font-semibold uppercase rounded-sm hover:bg-yellow-500 transition">
+                    <div id="visitWebsiteBlock" class="text-center">
+                        <button id="visitWebsiteBtn" class="btn btn-primary px-6 py-3 flex items-center gap-2 mx-auto">
+                            <i class="fas fa-external-link-alt"></i>
                             Visit Website
                         </button>
                     </div>
                 </div>
             </section>
 
-            <section id="loader" class="loader show">
+            <section id="loader" class="loader">
                 <div class="loader-container bg-gray-900 border border-yellow-400 p-8 relative text-center">
                     <div class="loader-spinner mb-4">
-                        <div class="animate-spin rounded-full h-12 w-12 border-4 border-yellow-400 border-t-transparent mx-auto"></div>
+                        <div class="relative">
+                            <div class="animate-spin rounded-full h-16 w-16 border-4 border-yellow-400 border-t-transparent mx-auto"></div>
+                            <div class="absolute inset-0 rounded-full border-4 border-transparent border-t-yellow-400 animate-spin mx-auto" style="animation-direction: reverse; animation-duration: 1.5s;"></div>
+                        </div>
                     </div>
-                    <h3 class="text-yellow-400 font-mono uppercase text-xl mb-2">Initializing Detection Engine</h3>
-                    <p class="text-gray-400">Loading AI-powered phishing analysis...</p>
+                    <h3 class="text-yellow-400 font-mono uppercase text-xl mb-2 flex items-center justify-center gap-2">
+                        <i class="fas fa-cog fa-spin"></i>
+                        Analyzing URL
+                    </h3>
+                    <p class="text-gray-400">Checking for phishing threats...</p>
+                    <div class="mt-4 w-full bg-gray-700 rounded-full h-2">
+                        <div class="bg-yellow-400 h-2 rounded-full animate-pulse loader-progress"></div>
+                    </div>
                 </div>
             </section>
 
             <section id="history" class="history hidden max-w-7xl mx-auto px-6 py-16">
                 <div class="history-container bg-gray-900 border border-yellow-400 p-6 relative">
-                    <button class="absolute top-2 right-2 bg-yellow-400 text-black text-3xl font-bold px-3 py-1 rounded transition" style="transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#ff6b6b';" onmouseout="this.style.backgroundColor='#FFD400';" onclick="document.getElementById('history').classList.remove('show')">×</button>
-                    <h3 class="text-yellow-400 font-mono uppercase mb-4">Recent Checks</h3>
+                    <button class="absolute top-4 right-4 btn btn-ghost text-xl close-btn close-btn-danger" aria-label="Close" onclick="document.getElementById('history').classList.remove('show')">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <h3 class="text-yellow-400 font-mono uppercase mb-4 flex items-center gap-2">
+                        <i class="fas fa-history"></i>
+                        Recent Checks
+                    </h3>
                     <ul id="historyList" class="findings text-gray-400 mb-4"></ul>
-                    <button id="clearHistory" class="border border-yellow-400 bg-yellow-400 text-black px-4 py-2 uppercase rounded-sm font-bold hover:bg-white hover:text-black hover:border-white transition">Clear History</button>
+                    <button id="clearHistory" class="btn btn-danger flex items-center gap-2">
+                        <i class="fas fa-trash"></i>
+                        Clear History
+                    </button>
                 </div>
             </section>
 

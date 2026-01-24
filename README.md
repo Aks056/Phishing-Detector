@@ -1,148 +1,288 @@
-# PHISHING-DETECTOR
+# Phishing Detector
+
 **Stop Phishing Before It Strikes, Stay Secure**
 
-Phishing-Detector is a security-focused tool that helps detect potential phishing threats by analyzing URLs. The tool applies a set of detection rules that help identify suspicious websites. With a modular design, it is flexible and easily extensible for evolving attack tactics, ensuring it remains effective against new phishing schemes.
+[![Java](https://img.shields.io/badge/Java-17+-orange)](https://openjdk.java.net/)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5+-brightgreen)](https://spring.io/projects/spring-boot)
+[![Maven](https://img.shields.io/badge/Maven-3.6+-blue)](https://maven.apache.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-### Built with the following tools and technologies:
-- **Programming Language**: Java
+Phishing-Detector is a comprehensive security tool designed to detect potential phishing threats by analyzing URLs in real-time. Built with a modular architecture, it employs multiple detection rules to identify suspicious websites and provides detailed threat analysis with risk scoring.
+
+## 🚀 Features
+
+- **Real-time URL Analysis**: Instant threat detection with comprehensive risk scoring
+- **Modular Detection Engine**: Easily extensible rules-based system for evolving threats
+- **RESTful API**: Clean API endpoints for seamless integration
+- **Interactive Dashboard**: Real-time analytics and threat monitoring
+- **Threat Intelligence**: Optional integration with external threat databases
+- **Detailed Reporting**: Structured analysis results with actionable insights
+- **Security Best Practices**: Built-in security headers and rate limiting
+- **Database Integration**: Persistent analysis history with H2/PostgreSQL support
+
+## 📸 Screenshots
+
+### 1. Landing Page
+![Landing Page](screenshots/landing-page.png)
+*Clean, intuitive interface for URL analysis*
+
+### 2. URL Analysis Results
+![Analysis Results](screenshots/analysis-results.png)
+*Detailed threat analysis with risk breakdown*
+
+### 3. Analytics Dashboard
+![Analytics Dashboard](screenshots/analytics-dashboard.png)
+*Real-time insights and threat metrics*
+
+### 4. Developer API Documentation
+![API Documentation](screenshots/developer-docs.png)
+*Interactive API documentation for developers*
+
+### 5. Mobile Responsive Design
+![Mobile View](screenshots/mobile-responsive.png)
+*Fully responsive design for all devices*
+
+## 🛠️ Tech Stack
+
+- **Backend**: Java 17+, Spring Boot 3.5+
+- **Database**: H2 (dev) / PostgreSQL (prod)
+- **Frontend**: HTML5, CSS3, JavaScript, Chart.js
 - **Build Tool**: Maven
-- **Architecture**: Modular
-- **Analysis Strategy**: Multi-rule detection
+- **Security**: Spring Security
+- **API**: RESTful with OpenAPI documentation
 
-## Table of Contents
-- [Overview](#overview)
-- [Features](#features)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-  - [Usage](#usage)
-  - [Testing](#testing)
-- [Project Structure](#project-structure)
-- [Contributing](#contributing)
-- [License](#license)
-- [Acknowledgements](#acknowledgements)
+## 📋 Prerequisites
 
-## Overview
+- **Java**: JDK 17 or higher
+- **Maven**: 3.6 or higher
+- **Git**: For cloning the repository
 
-Phishing-Detector is designed to protect users from phishing attacks by assessing the safety of URLs in real-time. It utilizes a series of detection algorithms to analyze URLs for signs of phishing attempts. The modular architecture allows easy updates to detection rules as new phishing tactics evolve, ensuring that the system remains secure and effective over time.
+## 🚀 Quick Start
 
-### Why Phishing-Detector?
-
-This project helps developers integrate phishing detection into their security infrastructure easily. The key benefits include:
-
-- **Modular Design**: The system is built with a modular architecture, allowing developers to easily extend and update detection rules to adapt to new threats.
-- **Multi-Rule Analysis**: Combines various detection strategies for a thorough assessment of URLs, increasing detection accuracy.
-- **REST API Integration**: The tool provides a REST API to integrate real-time URL checking into applications with ease.
-- **Clear and Structured Results**: The analysis results are clear and structured, providing developers with actionable insights to make informed decisions.
-- **Secure and Reliable**: Ensures consistent and accurate threat detection to safeguard users and systems against phishing attempts.
-
-## Features
-
-- **Real-time URL Analysis**: Check URLs against a set of detection rules to identify phishing attempts.
-- **Scalable Architecture**: Easily scale the detection system by adding new detection rules and strategies.
-- **Extensibility**: Extend the project to support new phishing tactics by adding new modules or improving existing detection rules.
-- **Detailed Reporting**: Provides detailed reports of phishing assessments, helping developers take appropriate actions.
-- **Secure**: The tool has been designed with security best practices in mind, ensuring that it remains effective in the face of evolving phishing threats.
-
-## Getting Started
-
-### Prerequisites
-Before getting started with Phishing-Detector, make sure you have the following software installed:
-
-- **Java**: Version 8 or higher.
-- **Maven**: Version 3.6 or higher.
-
-You can download Java from [here](https://adoptopenjdk.net/) and Maven from [here](https://maven.apache.org/).
-
-### Installation
-
-Follow these steps to set up Phishing-Detector on your local machine:
-
-1. **Clone the Repository**  
-git clone https://github.com/Aks056/Phishing-Detector.git
-
-
-2. **Navigate to the Project Directory**
-cd Phishing-Detector
-
-
-3. **Install Dependencies**  
-Use Maven to install the necessary dependencies:
-mvn install
-
-This command will download all the required libraries and set up the project.
-
-### Usage
-
-To run the Phishing-Detector locally, use the included Maven wrapper.
-
-- On Windows (PowerShell/CMD):
-
+### 1. Clone the Repository
+```bash
+git clone https://github.com/your-username/phishing-detector.git
+cd phishing-detector
 ```
+
+### 2. Run with Maven Wrapper
+```bash
+# Windows
 .\mvnw.cmd spring-boot:run
-```
 
-- On Linux/macOS:
-
-```
+# Linux/macOS
 ./mvnw spring-boot:run
 ```
 
-Or build a jar and run it:
+### 3. Access the Application
+- **Web Interface**: http://localhost:8080
+- **H2 Console**: http://localhost:8080/h2-console
+- **API Documentation**: http://localhost:8080/developer.html
+
+## 📖 Usage
+
+### Web Interface
+1. Navigate to http://localhost:8080
+2. Enter a URL in the analysis form
+3. Click "Analyze URL" to get instant results
+4. View detailed threat analysis and risk score
+
+### API Usage
+
+#### Analyze a URL
+```bash
+curl -X POST http://localhost:8080/api/v1/phishing/analyze \
+  -H "Content-Type: application/json" \
+  -d '{"url": "https://example.com"}'
+```
+
+#### Get Analysis History
+```bash
+curl http://localhost:8080/api/v1/phishing/history
+```
+
+#### Get Dashboard Analytics
+```bash
+curl http://localhost:8080/api/v1/analytics/dashboard
+```
+
+## 🔧 Configuration
+
+### Environment Variables
+```bash
+# Server Configuration
+SERVER_PORT=8080
+
+# Database (Production)
+SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/phishing_detector
+SPRING_DATASOURCE_USERNAME=your_username
+SPRING_DATASOURCE_PASSWORD=your_password
+
+# Security
+ADMIN_PASSWORD=your_secure_password
+
+# Threat Intelligence
+THREAT_INTELLIGENCE_ENABLED=true
+PHISHTANK_API_KEY=your_api_key
+```
+
+### Application Properties
+Key configurations in `application.properties`:
+- Database settings (H2 for dev, PostgreSQL for prod)
+- Security configurations
+- Threat intelligence settings
+- Rate limiting parameters
+
+## 🏗️ Project Structure
 
 ```
-./mvnw package
+phishing-detector/
+├── src/
+│   ├── main/
+│   │   ├── java/com/security/phishing_detector/
+│   │   │   ├── controller/          # REST controllers
+│   │   │   ├── domain/             # Entity classes
+│   │   │   ├── dto/                # Data transfer objects
+│   │   │   ├── repository/         # Data access layer
+│   │   │   ├── service/            # Business logic
+│   │   │   ├── security/           # Security configurations
+│   │   │   ├── detection/          # Detection rules engine
+│   │   │   └── PhishingDetectorApplication.java
+│   │   └── resources/
+│   │       ├── static/             # CSS, JS, images
+│   │       ├── templates/          # Thymeleaf templates
+│   │       └── application.properties
+│   └── test/                       # Unit and integration tests
+├── pom.xml                         # Maven configuration
+├── mvnw & mvnw.cmd                 # Maven wrapper
+├── Procfile                        # Heroku deployment
+└── README.md
+```
+
+## 🧪 Testing
+
+Run the test suite:
+```bash
+./mvnw test
+```
+
+Run with coverage:
+```bash
+./mvnw test jacoco:report
+```
+
+## 🚀 Deployment
+
+### Heroku
+1. Create a Heroku app
+2. Set environment variables
+3. Deploy using the Procfile
+
+### Docker
+```bash
+# Build the image
+docker build -t phishing-detector .
+
+# Run the container
+docker run -p 8080:8080 phishing-detector
+```
+
+### Traditional Server
+```bash
+# Build the JAR
+./mvnw clean package -DskipTests
+
+# Run the JAR
 java -jar target/phishing-detector-0.0.1-SNAPSHOT.jar
 ```
 
-### Testing
+## 📚 API Documentation
 
-Phishing-Detector uses the **JUnit** test framework. To run the tests and validate the functionality, run the following command:
+### Core Endpoints
 
-mvn test
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/v1/phishing/analyze` | Analyze a URL for threats |
+| GET | `/api/v1/phishing/history` | Get analysis history |
+| GET | `/api/v1/analytics/dashboard` | Get dashboard analytics |
+| GET | `/api/v1/phishing/health` | Health check |
 
+### Request/Response Examples
 
-This will run the tests included in the `src/test` directory and output the results to the console.
+**URL Analysis Request:**
+```json
+{
+  "url": "https://suspicious-site.com"
+}
+```
 
-## Project Structure
+**Analysis Response:**
+```json
+{
+  "url": "https://suspicious-site.com",
+  "phishing": true,
+  "riskScore": 85.5,
+  "riskLevel": "HIGH",
+  "detectedThreats": [
+    "Suspicious domain age",
+    "SSL certificate issues"
+  ],
+  "recommendation": "Avoid accessing this URL"
+}
+```
 
-The Phishing-Detector project is organized as follows:
+## 🤝 Contributing
 
-Phishing-Detector/
-├── src/
-│ ├── main/
-│ │ ├── java/ # Java source files
-│ │ └── resources/ # Configuration files and resources
-│ └── test/
-│ ├── java/ # Test source files
-│ └── resources/ # Test configuration files
-├── pom.xml # Maven build configuration
-└── README.md # Project documentation
+We welcome contributions! Please follow these steps:
 
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-- `src/main/java/`: Contains the core Java code for phishing detection, including detection rules and modules.  
-- `src/test/java/`: Contains the unit tests to verify the functionality of the project.  
-- `pom.xml`: The Maven build file, which includes project dependencies and build configurations.  
+### Development Guidelines
+- Follow Java coding standards
+- Add unit tests for new features
+- Update documentation
+- Ensure all tests pass
 
-## Contributing
-
-We welcome contributions to improve Phishing-Detector! To contribute:
-
-1. Fork the repository.  
-2. Create a new branch (`git checkout -b feature-name`).  
-3. Make your changes.  
-4. Commit your changes (`git commit -am 'Add new feature'`).  
-5. Push to your fork (`git push origin feature-name`).  
-6. Create a new Pull Request.  
-
-Please ensure that your code is well-documented and follows the existing coding style.
-
-## License
+## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Acknowledgements
+## 🙏 Acknowledgments
 
-- [OpenPhish](https://openphish.com/) for providing useful data on phishing domains.  
-- [OWASP](https://owasp.org/) for guidelines on secure web application development.  
-- All contributors who have helped improve this project.  
+- [OpenPhish](https://openphish.com/) for phishing data
+- [OWASP](https://owasp.org/) for security guidelines
+- [Spring Boot](https://spring.io/projects/spring-boot) for the framework
+- All contributors and security researchers
+
+## 📞 Support
+
+- **Issues**: [GitHub Issues](https://github.com/your-username/phishing-detector/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/your-username/phishing-detector/discussions)
+- **Email**: your-email@example.com
+
+---
+
+**Stay Safe Online! 🛡️**
+
+*Built with ❤️ for cybersecurity*
+
+---
+
+## 📸 Adding Screenshots
+
+To complete the README with visual documentation:
+
+1. Take screenshots of your application in action
+2. Save them in the `screenshots/` directory with these names:
+   - `landing-page.png` - The main landing page
+   - `analysis-results.png` - URL analysis results page
+   - `analytics-dashboard.png` - The analytics dashboard
+   - `developer-docs.png` - Developer/API documentation page
+   - `mobile-responsive.png` - Mobile view of the application
+3. Commit and push the images to your repository
+
+The README will automatically reference these images once added.  

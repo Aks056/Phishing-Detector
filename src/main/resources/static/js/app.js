@@ -16,10 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentAnalyzedUrl = '';
   let currentRiskLevel = '';
 
-  // Hide loader after initialization
-  setTimeout(() => {
-    loaderSection.classList.remove('show');
-  }, 2000);
+  // Loader is now only shown during analysis, not on page load
 
   // Visit website button handler
   if (visitWebsiteBtn) {
@@ -82,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
       historySection.classList.remove('show');
       return;
     }
-    historySection.classList.add('show');
+    // historySection.classList.add('show'); // Removed: don't show history automatically on load
     items.forEach(it => {
       const li = document.createElement('li');
       li.className = it.isPhishing ? 'danger' : 'safe';
@@ -101,7 +98,13 @@ document.addEventListener('DOMContentLoaded', () => {
     renderHistory();
   });
 
-  renderHistory();
+  // Function to show history - only load and show when requested
+  window.showHistory = function() {
+    renderHistory();
+    historySection.classList.add('show');
+  };
+
+  // renderHistory(); // Removed: don't load history on page load
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();

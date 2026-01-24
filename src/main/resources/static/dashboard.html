@@ -7,18 +7,19 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <link rel="stylesheet" href="/css/style.css">
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </head>
     <body>
         <header>
             <div class="container">
-                <div class="logo">🔒 PHISHING DETECTOR</div>
+                <div class="logo"><i class="fas fa-shield-alt"></i> PHISHING DETECTOR</div>
                 <nav>
-                    <a href="/">Home</a>
-                    <a href="/dashboard.html" class="active">Dashboard</a>
-                    <a href="/developer.html">Developer</a>
-                    <a href="/about.html">About</a>
+                    <a href="/"><i class="fas fa-home"></i> Home</a>
+                    <a href="/dashboard.html" class="active"><i class="fas fa-chart-line"></i> Dashboard</a>
+                    <a href="/developer.html"><i class="fas fa-code"></i> Developer</a>
+                    <a href="/about.html"><i class="fas fa-info-circle"></i> About</a>
                 </nav>
             </div>
         </header>
@@ -28,11 +29,14 @@
             <div class="pointer-events-none absolute inset-0 bg-[url('/assets/noise.png')] opacity-5"></div>
 
             <div class="max-w-7xl mx-auto px-6 py-10 md:py-16">
-                <h1 class="font-mono uppercase text-yellow-400 leading-none tracking-wider mb-2">
-                    <span class="inline-block">ANALYTICS</span>
-                    <span class="block">DASHBOARD</span>
+                <h1 class="font-mono uppercase text-yellow-400 leading-none tracking-wider mb-2 flex items-center gap-3">
+                    <i class="fas fa-chart-line"></i>
+                    <span>ANALYTICS</span>
                 </h1>
-                <p class="text-gray-400 uppercase tracking-wider">Real-time insights and threat analysis metrics</p>
+                <h1 class="font-mono uppercase text-yellow-400 leading-none tracking-wider flex items-center gap-3">
+                    <span>DASHBOARD</span>
+                </h1>
+                <p class="text-gray-400 uppercase tracking-wider mt-4">Real-time insights and threat analysis metrics</p>
             </div>
 
             <!-- Stats Cards -->
@@ -44,13 +48,19 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <!-- Daily Trend Chart -->
                     <div class="bg-gray-900 border border-yellow-400 p-6">
-                        <h3 class="text-yellow-400 font-mono uppercase mb-4">Analysis Trend (7 Days)</h3>
+                        <h3 class="text-yellow-400 font-mono uppercase mb-4 flex items-center gap-2">
+                            <i class="fas fa-chart-area"></i>
+                            Analysis Trend (7 Days)
+                        </h3>
                         <canvas id="dailyTrendChart"></canvas>
                     </div>
 
                     <!-- Risk Distribution -->
                     <div class="bg-gray-900 border border-yellow-400 p-6">
-                        <h3 class="text-yellow-400 font-mono uppercase mb-4">Risk Score Distribution</h3>
+                        <h3 class="text-yellow-400 font-mono uppercase mb-4 flex items-center gap-2">
+                            <i class="fas fa-chart-pie"></i>
+                            Risk Score Distribution
+                        </h3>
                         <canvas id="riskDistributionChart"></canvas>
                     </div>
                 </div>
@@ -58,13 +68,19 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
                     <!-- Top Threat Categories -->
                     <div class="bg-gray-900 border border-yellow-400 p-6">
-                        <h3 class="text-yellow-400 font-mono uppercase mb-4">Top Threat Categories</h3>
+                        <h3 class="text-yellow-400 font-mono uppercase mb-4 flex items-center gap-2">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Top Threat Categories
+                        </h3>
                         <canvas id="threatCategoriesChart"></canvas>
                     </div>
 
                     <!-- Recent Analyses -->
                     <div class="bg-gray-900 border border-yellow-400 p-6">
-                        <h3 class="text-yellow-400 font-mono uppercase mb-4">Recent Analyses</h3>
+                        <h3 class="text-yellow-400 font-mono uppercase mb-4 flex items-center gap-2">
+                            <i class="fas fa-clock"></i>
+                            Recent Analyses
+                        </h3>
                         <div id="recentAnalyses" class="space-y-2 max-h-64 overflow-y-auto">
                             <!-- Recent analyses will be populated here -->
                         </div>
@@ -73,7 +89,10 @@
 
                 <!-- Threat Intelligence Status -->
                 <div class="bg-gray-900 border border-yellow-400 p-6 mt-6">
-                    <h3 class="text-yellow-400 font-mono uppercase mb-4">Threat Intelligence Status</h3>
+                    <h3 class="text-yellow-400 font-mono uppercase mb-4 flex items-center gap-2">
+                        <i class="fas fa-brain"></i>
+                        Threat Intelligence Status
+                    </h3>
                     <div id="threatIntelStatus" class="text-gray-400">
                         <!-- Status will be populated by JavaScript -->
                     </div>
@@ -97,7 +116,7 @@
                     renderDailyTrendChart(data.dailyTrend);
                     renderRiskDistributionChart(data.riskDistribution);
                     renderThreatCategoriesChart(data.topThreatCategories);
-                    renderRecentAnalyses(data.recentAnalyses || []);
+                    renderRecentAnalyses(data.recentAnalysesList || []);
                 } catch (error) {
                     console.error('Failed to load dashboard data:', error);
                 }

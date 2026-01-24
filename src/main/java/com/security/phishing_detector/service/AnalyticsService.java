@@ -43,6 +43,9 @@ public class AnalyticsService {
         List<AnalysisHistory> recentAnalyses = historyRepository.findByTimestampAfter(weekAgo);
         stats.put("recentAnalyses", recentAnalyses.size());
 
+        // Recent analyses list for dashboard
+        stats.put("recentAnalysesList", getRecentAnalyses(10));
+
         // Threat intelligence stats
         stats.put("threatDbSize", threatIntelligenceService.getThreatDatabaseSize());
         stats.put("threatDbLastUpdate", threatIntelligenceService.getLastUpdate());

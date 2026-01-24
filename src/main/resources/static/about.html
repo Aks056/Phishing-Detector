@@ -148,6 +148,7 @@
             border-radius: 8px;
             padding: 25px;
             margin: 20px 0;
+            -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
             box-shadow: 0 8px 32px rgba(255, 212, 0, 0.1);
             transition: all 0.3s ease;
@@ -351,6 +352,18 @@
                 padding: 10px;
             }
         }
+
+        .frontend-heading {
+            margin-top: 20px;
+        }
+
+        .api-heading {
+            color: #81c784;
+        }
+
+        .request-heading {
+            margin-top: 15px;
+        }
     </style>
 </head>
 <body>
@@ -417,7 +430,7 @@
                 <div class="tech-badge">Spring Security</div>
             </div>
 
-            <h3 style="margin-top: 20px;">Frontend</h3>
+            <h3 class="frontend-heading">Frontend</h3>
             <div>
                 <div class="tech-badge">HTML5</div>
                 <div class="tech-badge">Tailwind CSS</div>
@@ -550,12 +563,12 @@ java -jar target/phishing-detector-0.0.1-SNAPSHOT.jar
                 <h3>Phishing Analysis API</h3>
                 <p><strong>Endpoint:</strong> <code>POST /api/v1/phishing/analyze</code></p>
 
-                <h4 style="color: #81c784; margin-top: 15px;">Request Body</h4>
+                <h4 class="api-heading request-heading">Request Body</h4>
                 <pre><code>{
   "url": "https://example.com"
 }</code></pre>
 
-                <h4 style="color: #81c784;">Response</h4>
+                <h4 class="api-heading">Response</h4>
                 <pre><code>{
   "url": "https://example.com",
   "isPhishing": false,
@@ -682,7 +695,7 @@ User Input → Validation → Detection Rules → Risk Calculation
     <footer>
         <p>&copy; 2026 Phishing Detector. All rights reserved.</p>
         <p>Advanced Security Analysis | Real-time Threat Detection | Powered by AI</p>
-        <p><a href="/" style="color: #FFD400;">Home</a> | <a href="/developer.html" style="color: #FFD400;">Developer Docs</a> | <a href="/dashboard.html" style="color: #FFD400;">Dashboard</a></p>
+        <p><a href="/">Home</a> | <a href="/developer.html">Developer Docs</a> | <a href="/dashboard.html">Dashboard</a></p>
     </footer>
 </body>
 </html>
