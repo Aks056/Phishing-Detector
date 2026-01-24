@@ -39,7 +39,12 @@ public class ThreatIntelligenceService {
     @PostConstruct
     public void init() {
         if (enabled) {
-            updateThreatIntelligence();
+            try {
+                updateThreatIntelligence();
+            } catch (Exception e) {
+                System.err.println("Failed to initialize threat intelligence on startup: " + e.getMessage());
+                // Don't fail application startup due to threat intelligence issues
+            }
         }
     }
 

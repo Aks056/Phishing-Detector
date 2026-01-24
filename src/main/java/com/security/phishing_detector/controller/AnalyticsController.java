@@ -25,8 +25,16 @@ public class AnalyticsController {
 
     @GetMapping("/dashboard")
     public ResponseEntity<Map<String, Object>> getDashboardStats() {
-        Map<String, Object> stats = analyticsService.getDashboardStats();
-        return ResponseEntity.ok(stats);
+        try {
+            System.out.println("AnalyticsController: Getting dashboard stats...");
+            Map<String, Object> stats = analyticsService.getDashboardStats();
+            System.out.println("AnalyticsController: Dashboard stats retrieved successfully. Keys: " + stats.keySet());
+            return ResponseEntity.ok(stats);
+        } catch (Exception e) {
+            System.err.println("AnalyticsController: Error getting dashboard stats: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @GetMapping("/recent")
