@@ -23,11 +23,9 @@ Phishing-Detector is a comprehensive security tool designed to detect potential 
 ## 📸 Screenshots
 
 ### 1. Landing Page
-![Landing Page](screenshots/landing-page.png)
 *Clean, intuitive interface for URL analysis*
 
 ### 2. URL Analysis Results
-![Analysis Results](screenshots/analysis-results.png)
 *Detailed threat analysis with risk breakdown*
 
 ### 3. Analytics Dashboard
